@@ -1,3 +1,4 @@
 # senac
-Repositório feito no curso de Desenvolvimento Python no Senac RJ 2025
+Repositório criado no Senac;
+-- Curso Desenvolvimento Python 2025;
 (Professor Elias)
