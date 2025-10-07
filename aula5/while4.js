@@ -6,5 +6,5 @@ let contador =1;
 while(contador <= 10){
     let mult= 5;
     document.write('<br>', mult * contador)
-    contador +=2;
+    contador++;
 }
