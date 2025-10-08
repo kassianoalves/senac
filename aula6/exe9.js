@@ -1,12 +1,11 @@
-let contMulher = 0,
-  contHomem = 0;
+let contMulher = 0;
+let contHomem = 0;
 let somaM = 0;
 let somaF = 0;
 let continua = 's';
 
-for (; continua == 's'; ) {
-    for (let i = 0; i < 4; i++) {
-
+while (continua !== "n") {
+    
   let salario = parseInt(prompt("Qual o seu salário?"));
   let sexo = prompt("Qual o seu sexo? (M/F)");
   
@@ -25,10 +24,12 @@ for (; continua == 's'; ) {
     default:
       alert("Sexo inválido"); break;
      } 
+
+     continua = prompt('Deseja permanecer? <s/n>');
+     if (continua =='n'){alert('Obrigado, thcau!');}
 }
-  continua = prompt('Deseja permanecer? <s/n>');
-        if (continua =='n'){alert('Obrigado, thcau!');}
-}            
+  
+            
 
 document.write("Mulheres: " + contMulher);
 document.write("<br>Homens: " + contHomem);
