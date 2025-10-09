@@ -10,5 +10,6 @@ switch(operacao){
         document.write(num1 * num2); break;
     case 3:
         document.write(num1 / num2); break;
-    alert(operacao)
+    default:
+    alert(operacao); break;
 }
