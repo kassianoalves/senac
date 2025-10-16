@@ -8,7 +8,7 @@ let notas = [];
 //recebendo os nomes e as notas do alunos e guardando (push) dentro dos vetores.
 for(let i=0; i<10; i++){
     aluno.push(prompt('Digite o nome do aluno'+ (i+1)+':')); // o prompt já coloca a valor dentro da variavel usando o push, sem precisar declarar novas variavel pra isso.
-    notas.push(parseFloat(prompt('Digre a nota do aluno '+ aluno[i]+':')));
+    notas.push(parseFloat(prompt('Digite a nota do aluno '+ aluno[i]+':')));
 }
 
 //Calculando a media da turma
