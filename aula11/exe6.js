@@ -15,6 +15,10 @@ Adicione os seguintes métodos:
     exibirInfo(): Exibe as informações do produto.  
 ---------------------------------------- */
 
+meuStorage = localStorage; // chamei um localStorage
+
+//localStorage.setItem("Farinha", 'Doce');
+
 class Produto {
     constructor (nome, preco, estoque){
         this.nome = nome;
@@ -40,7 +44,8 @@ class Produto {
     };
 };
 
-let compras = new Produto('Farinha', 5, 10)
+let compras = new Produto("Farinha", 5, 10)
+localStorage.setItem("Objeto", JSON.stringify(compras)); // passou os valores para strings usando json. Eu seto os itens do objeto "Objeto" compras dentro dele.
 
 compras.vender(5)
 compras.reporEstoque(2)
