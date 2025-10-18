@@ -44,9 +44,9 @@ class Produto {
     };
 };
 
-let compras = new Produto("Farinha", 5, 10)
+let compras = new Produto("Açucar", 3, 2)
 localStorage.setItem("Objeto", JSON.stringify(compras)); // passou os valores para strings usando json. Eu seto os itens do objeto "Objeto" compras dentro dele.
 
-compras.vender(5)
-compras.reporEstoque(2)
+compras.vender(1)
+compras.reporEstoque(20)
 compras.exibirInfo()
