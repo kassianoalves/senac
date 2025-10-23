@@ -6,21 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aula 01</title>
 </head>
-<body> <!-- corpo inteiro do site -->
+<body style="background-color:rgb(252, 196, 94)"> <!-- corpo inteiro do site -->
     <!-- tags de cabeçalho (headers)-->
-   <h1>Exemplos</h1>
-    <nav>
-        <ul type="disc">
-            <li type="square">Home</li>
-            <li type="circle">Sobre</li>
-            <li>Contato</li>
+   <h1 style="color: rgb(74, 13, 109); text-align:center; ">Exemplos</h1>
+    <nav style="color:aquamarine; text-align:center;">
+        <ul>
+            <li><a a href="#">Home</a></li> <!-- uso o # para ele ficar na página atual principal-->
+            <li><a  a href="sobre.html">Sobre</a></li>
+            <li><a href="https://google.com/" target="_blank"> google</a></li>
+            <li><a href="#configuracao">configuracao</a></li><!-- usamos o # agora para dizer que vai procurar a section que contem o ID configuracao, mesmo que na pagina index.-->
+            <li><a a href="contato.html">Contato</a></li>
         </ul>
     </nav>
-    <main><!--parte principal, como se fosse um body dentro do body.-->
+   
         <section id="paragrafo">
             <article> <!-- artigo -->
                 <h2>Funções</h2>
                 <p>Para usar o br entre maior e menor sem que ele entenda que é uma tag, devemos usar &lt;br&gt; (veja no console)</p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam nulla cumque placeat sint quas. Eos totam porro corrupti. Itaque debitis consequuntur dicta fugit temporibus suscipit? Odio veritatis voluptatem maxime asperiores!<br>
+                Dolore doloribus provident optio atque vel velit illo accusamus ut repellat? Obcaecati omnis veniam iusto. Autem, architecto nisi! Quae aspernatur explicabo voluptates fugiat aut necessitatibus doloribus ea repellat quam sunt.<br>
+                Earum repudiandae eum vitae doloremque et corporis quasi magnam fuga harum in consectetur accusantium laborum velit neque, incidunt laudantium molestias atque error ipsum sapiente ipsa architecto? In dignissimos repudiandae dolore!<br>
+                Quam quasi corporis tempora autem, beatae minima quod. Dolorem repellendus odio temporibus eligendi. Maxime dolore, non qui expedita deleniti, iusto impedit sit magnam, quia et quibusdam minus corrupti tempore similique.<br>
+                Est officia nobis provident, id, laudantium accusamus tempore quia temporibus quae quasi possimus culpa itaque dignissimos tenetur voluptatibus sint iste totam qui aliquam ratione. Quam facilis laborum illum veniam omnis!
             </article>
             <article>
                 <h2>Outras Funções</h2>
@@ -29,18 +36,20 @@
                     <li>Imagens</li>
                     <li>Tabelas</li>
                     <li>Fontes</li>
-                                     
-
                 </ol>
             </article>
         </section>
+        <main><!--parte principal, como se fosse um body dentro do body.-->
+            <section id="configuracao">
+                <article>
+                    <h2>configuracao</h2>
+                    <p>podemos usar o tag...</p>
+                </article>
 
-        <section id="configuracao">
-
-        </section>
+            </section>
     </main>
-    <footer> <!--rodapé do site.-->
-
+    <footer style="background-color: black; color:whitesmoke"> <!--rodapé do site.-->
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati veniam ab ut nesciunt repellat eos laborum molestiae, consequatur ea accusantium voluptatum doloremque quo voluptatem tenetur atque ipsum? Magnam, repellat atque.</p>
     </footer>
 </body>
 </html>
