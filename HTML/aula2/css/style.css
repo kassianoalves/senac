@@ -1,0 +1,46 @@
+body{
+    background-image: url('../image/ingredi.jpg');
+   background-repeat: no-repeat;
+   background-size: cover;
+   margin: 0px;
+   display: flexbox;
+   
+}
+section{
+    display:flexbox;
+}
+figure {
+    display: block; /* Padrão, mas pode ser ajustado */
+    margin: 2px auto; /* Centraliza a figura */
+    border-style: dotted;
+    border: 1px rgb(251, 255, 0) solid;
+    padding: 10px;
+    max-width:fit-content /* Define uma largura máxima */
+    
+  }
+  
+  /* Estilos para a imagem dentro da figura */
+  figure img {
+    display: block; /* Garante que a imagem seja um bloco */
+    max-width: fit-content; /* A imagem se ajustará à largura do contêiner */
+    width: 250px;
+    height: 350px; /* Mantém a proporção da imagem */
+    margin-bottom: 10px; /* Espaço abaixo da imagem */
+  }
+  
+  /* Estilos para a legenda */
+  figcaption {
+    text-align: center; /* Centraliza o texto da legenda */
+    font-style: italic; /* Formata o texto da legenda */
+    color: #555;
+    font-size: 0.9em;
+  }
+
+.titulo{
+    background-color: rgb(3, 26, 128);
+    margin: 50px 500px 10px 500px;
+    color: rgb(255, 145, 0);
+    text-align: center;
+    border-radius: 150px;
+    max-width: fit-content;
+}
