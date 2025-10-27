@@ -1,0 +1,81 @@
+index.html
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Loja de Tênis</title>
+</head>
+
+<body>
+    <!-- cabeçalho do site -->
+    <header>
+        <h1>Bem-vindo à nossa loja de tênis</h1>
+        <nav>   
+                <a href="#">Home</a>
+                <a href="index.html#produtos">Produtos</a>
+                <a href="index.html#sobre">Sobre nós</a>
+                <a href="index.html#contato">Contato</a>
+                <a href="local.html">Onde estamos</a>  
+        </nav>
+    </header>
+    <!-- conteúdo principal do site -->
+    <main>
+        <!-- seção de produtos -->
+        <section id="produtos">
+            <h2>Nossos produtos</h2>
+            <!-- cada produto com um artigo -->
+            <article class="galeria">
+                <h3>Tênis de corrida</h3>
+                <p>Ideal para quem busca performance e conforto nas corrigas.</p>
+                <a href="images/corrida01.jpg" target="_blank"><img src="images/corrida01.jpg" alt="tenis de corrida na cor preto"></a>
+                <img src="images/corrida02.jpg" alt="tenis de corrida na cor preto">
+                <img src="images/corrida03.jpg" alt="tenis de corrida cinza com verde fluorescente">
+                
+            </article>
+            <article class="galeria">
+                <h3>Tênis casual</h3>
+                <p>Para um estilo de conforto e design moderno.</p>
+                <img src="images/casual01.jpg" alt="tenis casual com imagens"> 
+                <img src="images/casual02.png" alt="tenis casual dourado"> 
+                <img src="images/casual03.jpg" alt="tenis casual amarelo fluorescente"> 
+            </article>
+        </section>
+        <hr>
+        <!-- section de sobre nós -->
+        <section id="sobre">
+            <h2>Sobre nós</h2>
+            <p>Conheça mais sobre nossa loja e nossos valores</p>            
+        </section>
+        <hr>
+        <!-- section de contato -->
+        <section id="contato">
+            <h2>Contato</h2>
+            <p>Entre em contato conosco para mais informações</p>
+        </section>
+        <!-- section para os arquivos de mídia-->
+        <section id="midias">
+            <h2>Experimente nossos produtos</h2>
+            <video height="240" width="320" controls>
+                <source src="videos/video1.mp4" type="video/mp4">
+                Seu navegador não suporta tag de vídeo
+            </video>
+            <audio controls>
+                <source src="audios/audio1.mp3" type="audio/mp3">
+                Seu navegador não suporta tag de audio
+            </audio>
+        </section>
+    </main>
+    <aside>
+        <h3>Anúncios</h3>
+        <p>Aqui podem estar anúncios de parceiros</p>
+        <iframe width="460" height="215" src="https://www.youtube.com/embed/Dy6KyVJSHHs?si=TRshGa-L8PitdoEc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </aside>
+    <footer>
+        <p>&copy; 2024 Loja de Tênis. Todos os direitos reservados</p>
+    </footer>
+</body>
+</html>
