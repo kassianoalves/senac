@@ -1,73 +1,8 @@
 body{
-    margin: 0px;
-    padding: 0px;
-    display: flexbox;
-    background-image: url(../image/background.jpg);
+    background-image: url(../image/bg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-/* -------------MENU e Titulos--------*/
-header{
-    margin: 0px;
-}
-
-#titulo{
-    text-align: center;
-    margin: 50px 0px 0px 0px;
-    padding: 2px;
-}
-h1{
-    margin: 0px 0px 0px 0px;
-    color: blanchedalmond;
-}
-h3{
-    margin: 0px 0px 0px 0px;
-    color:aliceblue;
-}
-a{
-    text-decoration:underline;
-    text-decoration-color: yellow;
-    color: antiquewhite;
-}
-.menu{
-    text-align: center;
-    margin: 20px 2px 0px 0px;
-    padding: 0px;
-    font-size: 20px;
-    
-}
-
-/* -------------MAIN--------*/
-figure{
-    display: block;
-}
-
-.img1{
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 400px;
-    max-height:fit-content;
-    border-radius: 20px;
-    border: 10px;
-    flex-direction:row; /* Mudou a direção */
-    justify-content: center;/* Agora, alinhamento vertical */
-    align-items: center;/* e alinhamento horizontal */
-}
-
-
-
-
-
-/* -------------rodapé--------*/
-footer{
-    text-align:center;
-    display: flexbox;
-    align-items: end;
-    background-color: blue;
-    margin: 1px;
-    padding: 2px;
-    color: blanchedalmond;
-    
+#nativo {
 }

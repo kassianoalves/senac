@@ -1,42 +1,59 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sabor Intenso</title>
     <link rel="stylesheet" href="../css/style.css">
-    
-</head>
-<body>
-    <header id="titulo">
-        <h1>Sabor Intenso</h1>
-            <h3>Churrascaria Carioca</h3>
-    </header>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-    <main>
-        <nav class="menu">
-            <a href="#">Home</a>
-            <a href="pratos.html">Pratos</a>
-            <a href="reserva.html">Reserva</a>
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <main style="margin-top: 10px" class="flex-fill">
+
+        <nav class="navbar bg-body-tertiary ">
+
+            <div class="container-fluid justify-content-center">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                <a class="navbar-brand" href="#">
+                    <img src="../image/icons/abobora.png" alt="Logo" width="30" height="24"
+                        class="d-inline-block align-text-center">
+                    Scare
+                </a> </li></ul>
+            </div>
+
+            <div class="container-fluid">
+                <ul class="nav nav-tab">
+                    <li class="nav-item">
+                <a class="navbar-brand" href="#">
+                    <img src="../image/icons/fantasma.png" alt="Logo" width="30" height="24"
+                        class="d-inline-block align-text-center">
+                    Ghost
+                </a></li></ul>
+            </div>
+
+            <div class="container-fluid">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                <a class="navbar-brand" href="#">
+                    <img src="../image/icons/morte.png" alt="Logo" width="30" height="24"
+                        class="d-inline-block align-text-center">
+                    Dead
+                </a></li></ul>
+            </div>
+
         </nav>
 
-        <section class="image">
-           <figure>
-            <img class="img1" src="../image/costela.jpg" alt="costela de porco sendo assada para consumo.">
-           </figure>
-
-           <figure>
-            <img class="img1" src="../image/carne.jpg" alt="carne já cortada em um prato para servir.">
-           </figure>
-
-           <figure>
-            <img class="img1" src="../image/frango.jpg" alt="frango grelhado pronto para consumo.">
-           </figure>
-        </section>
-
     </main>
-    <footer>
+    <footer class="mt-auto">
         <p>&copy; 2025. Churrascaria Sabor Intenso. Todos os direitos reservados.</p>
     </footer>
 </body>
+
 </html>

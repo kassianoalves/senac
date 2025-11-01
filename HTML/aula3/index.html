@@ -7,6 +7,9 @@ index.html
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+
     <title>Loja de Tênis</title>
 </head>
 
@@ -19,29 +22,30 @@ index.html
                 <a href="index.html#produtos">Produtos</a>
                 <a href="index.html#sobre">Sobre nós</a>
                 <a href="index.html#contato">Contato</a>
-                <a href="local.html">Onde estamos</a>  
+                <a href="local.html">Onde estamos</a>
+                <a href="preco.html">Preços</a>  
         </nav>
     </header>
     <!-- conteúdo principal do site -->
     <main>
         <!-- seção de produtos -->
-        <section id="produtos">
+        <section id="produtos" class="row">
             <h2>Nossos produtos</h2>
             <!-- cada produto com um artigo -->
-            <article class="galeria">
+            <article class="galeria col-12 col-md col-6">
                 <h3>Tênis de corrida</h3>
                 <p>Ideal para quem busca performance e conforto nas corrigas.</p>
-                <a href="images/corrida01.jpg" target="_blank"><img src="images/corrida01.jpg" alt="tenis de corrida na cor preto"></a>
-                <img src="images/corrida02.jpg" alt="tenis de corrida na cor preto">
-                <img src="images/corrida03.jpg" alt="tenis de corrida cinza com verde fluorescente">
+                <a href="../projeto/image/carne.jpg" target="_blank"><img src="../projeto/image/carne.jpg" alt="tenis de corrida na cor preto"></a>
+                <img src="../projeto/image/costela.jpg" alt="tenis de corrida na cor preto">
+                <img src="../projeto/image/frango.jpg" alt="tenis de corrida cinza com verde fluorescente">
                 
             </article>
-            <article class="galeria">
+            <article class="galeria col-12 col-md col-6">
                 <h3>Tênis casual</h3>
                 <p>Para um estilo de conforto e design moderno.</p>
-                <img src="images/casual01.jpg" alt="tenis casual com imagens"> 
-                <img src="images/casual02.png" alt="tenis casual dourado"> 
-                <img src="images/casual03.jpg" alt="tenis casual amarelo fluorescente"> 
+                <img src="../projeto/image/hamburg.jpg" alt="tenis casual com imagens"> 
+                <img src="../projeto/image/frango.jpg" alt="tenis casual dourado"> 
+                <img src="../projeto/image/costela.jpg" alt="tenis casual amarelo fluorescente"> 
             </article>
         </section>
         <hr>
@@ -77,5 +81,7 @@ index.html
     <footer>
         <p>&copy; 2024 Loja de Tênis. Todos os direitos reservados</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
