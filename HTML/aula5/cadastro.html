@@ -1,0 +1,150 @@
+index.html
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+
+    <title>Loja de Tênis</title>
+</head>
+
+<body>
+    <!-- cabeçalho do site -->
+    <header>
+        <h1>Cadastro</h1>
+        <nav class="navbar navbar-expand-lg bg-body-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" href="#">Loja Python</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-white active" aria-current="page" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white active" aria-current="page" href="#produtos">Produtos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white active" aria-current="page" href="#sobre">Sobre nós</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  text-white active" aria-current="page" href="#contato">Contato</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white active" aria-current="page" href="local.html">Onde estamos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white active" aria-current="page" href="preco.html">Preços</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white active" aria-current="page" href="#"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Dropdown link
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Cadastro</a></li>
+                                <li><a class="dropdown-item" href="endereco.html">Endereço</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- conteúdo principal do site -->
+    <main style="margin-top: 10px;">
+        <section class="row container">
+            <form action="" method="get">
+                <!--Entrade do Nome-->
+                <label for="nome">Nome</label>
+                <input type="text" name="nome" id="nome" placeholder="Digite Seu nome" class="form-control" required>
+                <!-- Entrada de Idade-->
+                <label for="idade">Idade</label>
+                <input type="number" name="idade" id="idade" class="form-control" required>
+                <!--Entrada do E-mail-->
+                <label for="email">E-mail</label>
+                <input type="email" name="email" id="email" class="form-control" required>
+                <!--Entrada de Senha-->
+                <label for="senha">Senha</label>
+                <input type="password" name="senha" id="senha" class="form-control" required>
+                <!--Entrada de Telefone-->
+                <label for="telefone">Telefone</label>
+                <input type="tel" name="telefone" id="telefone" class="form-control" placeholder="(DDD)XXXXX-XXXX"
+                    required>
+                <!--Entrada de Sexo-->
+                <label>Sexo</label><br>
+                <div class="form-check form-check-inline">
+                    <label for="sexo" class="form-check">Feminino</label>
+                    <input type="radio" name="sexo" id="sexo" value="f" class="for-check-input" required>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label for="sexo" class="form-check">Masculino</label>
+                    <input type="radio" name="sexo" id="sexo" value="m" class="for-check-input" required>
+                </div><br>
+                <label for="time">Times</label>
+                <select name="time" id="time" class="form-control">
+                    <option value="fla">Flamengo</option>
+                    <option value="vas">Vasco</option>
+                    <option value="flu">Fluminense</option>
+                    <option value="bot">Botafogo</option>
+                </select>
+                <p></p>
+                <label>Laudo médico?</label>
+                <p></p>
+                <input type="checkbox" class="form-check-input" name="tdah" value="tdah"> <label for="tdah"
+                    class="form-check-label">TDAH</label>
+                <input type="checkbox" class="form-check-input" name="autismo" value="autismo"> <label for="autismo"
+                    class="form-check-label">Autismo</label>
+                <p></p>
+                <label for="nasc">Nascimento</label>
+                <input type="date" name="nasc" class="form-control">
+                <label for="nasctime">Nascimento e hora</label>
+                <input type="datetime-local" name="nasctime" class="form-control">
+                <label for="hora">Horário do sono</label>
+                <input type="time" name="hora" class="form-control">
+                <p></p>
+                <label for="curri">Currículo</label>
+                <input type="file" name="curri" class="form-control">
+                <p></p>
+                <label for="cor">Selecione sua cor preferida</label>
+                <input type="color" name="cor">
+                <p></p>
+                <label for="busca">Busca</label>
+                <input type="search" name="busca">
+                <p></p>
+                        <!-- Botão de Envio-->
+                <input type="submit" value="Enviar" class="btn btn-success">
+                <input type="reset" value="Limpar" class="btn btn-danger">
+
+                
+            </form>
+        </section>
+    </main>
+    <aside>
+        <h3>Anúncios</h3>
+        <p>Aqui podem estar anúncios de parceiros</p>
+        <iframe width="460" height="215" src="https://www.youtube.com/embed/Dy6KyVJSHHs?si=TRshGa-L8PitdoEc"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </aside>
+    <footer>
+        <p>&copy; 2024 Loja de Tênis. Todos os direitos reservados</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

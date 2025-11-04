@@ -1,0 +1,118 @@
+index.html
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+
+    <title>Loja de Tênis</title>
+</head>
+
+<body>
+    <!-- cabeçalho do site -->
+    <header>
+        <h1>Bem-vindo à nossa loja de tênis</h1>
+        <nav class="navbar navbar-expand-lg bg-body-primary">
+            <div class="container-fluid">
+              <a class="navbar-brand text-white" href="#">Loja Python</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link text-white active" aria-current="page" href="#">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white active" aria-current="page" href="#produtos">Produtos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white active" aria-current="page" href="#sobre">Sobre nós</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link  text-white active" aria-current="page" href="#contato">Contato</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white active" aria-current="page" href="local.html">Onde estamos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white active" aria-current="page" href="preco.html">Preços</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white active" aria-current="page" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Dropdown link
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="cadastro.html">Cadastro</a></li>
+                      <li><a class="dropdown-item" href="endereco.html">Endereço</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </header>
+    <!-- conteúdo principal do site -->
+    <main style="margin-top: 10px;">
+        <!-- seção de produtos -->
+        <section id="produtos" class="row">
+            <h2>Nossos produtos</h2>
+            <!-- cada produto com um artigo -->
+            <article class="galeria col-12 col-md col-6">
+                <h3>Tênis de corrida</h3>
+                <p>Ideal para quem busca performance e conforto nas corrigas.</p>
+                <a href="../projeto/image/carne.jpg" target="_blank"><img src="../projeto/image/carne.jpg" alt="tenis de corrida na cor preto"></a>
+                <img src="../projeto/image/costela.jpg" alt="tenis de corrida na cor preto">
+                <img src="../projeto/image/frango.jpg" alt="tenis de corrida cinza com verde fluorescente">
+                
+            </article>
+            <article class="galeria col-12 col-md col-6">
+                <h3>Tênis casual</h3>
+                <p>Para um estilo de conforto e design moderno.</p>
+                <img src="../projeto/image/hamburg.jpg" alt="tenis casual com imagens"> 
+                <img src="../projeto/image/frango.jpg" alt="tenis casual dourado"> 
+                <img src="../projeto/image/costela.jpg" alt="tenis casual amarelo fluorescente"> 
+            </article>
+        </section>
+        <hr>
+        <!-- section de sobre nós -->
+        <section id="sobre">
+            <h2>Sobre nós</h2>
+            <p>Conheça mais sobre nossa loja e nossos valores</p>            
+        </section>
+        <hr>
+        <!-- section de contato -->
+        <section id="contato">
+            <h2>Contato</h2>
+            <p>Entre em contato conosco para mais informações</p>
+        </section>
+        <!-- section para os arquivos de mídia-->
+        <section id="midias">
+            <h2>Experimente nossos produtos</h2>
+            <video height="240" width="320" controls>
+                <source src="videos/video1.mp4" type="video/mp4">
+                Seu navegador não suporta tag de vídeo
+            </video>
+            <audio controls>
+                <source src="audios/audio1.mp3" type="audio/mp3">
+                Seu navegador não suporta tag de audio
+            </audio>
+        </section>
+    </main>
+    <aside>
+        <h3>Anúncios</h3>
+        <p>Aqui podem estar anúncios de parceiros</p>
+        <iframe width="460" height="215" src="https://www.youtube.com/embed/Dy6KyVJSHHs?si=TRshGa-L8PitdoEc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </aside>
+    <footer>
+        <p>&copy; 2024 Loja de Tênis. Todos os direitos reservados</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
