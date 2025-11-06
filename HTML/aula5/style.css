@@ -26,8 +26,8 @@ header nav a:hover{
 .galeria img {
     margin:10px;
     border: 2px solid #a7a7ac;
-    width: 200px;
-    height: 150px;
+    width: 90%;
+    height: 65%;
     /* Sombra suave */
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);  
 }

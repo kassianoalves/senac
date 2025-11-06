@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Jogue - The King of Fighters</title>
+  <!-- Bootstrap 5.3.8 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body { background: #111; color: #fff; font-family: 'Press Start 2P', cursive; }
+    h1, h2 { text-shadow: 0 0 10px #ff0040; }
+    canvas { background: #222; display: block; margin: 20px auto; border: 3px solid #ff0040; }
+    .hp-bar { height: 20px; background: #444; margin: 5px; border: 2px solid #fff; }
+    .hp-fill { height: 100%; background: #0f0; }
+    .tutorial { border: 2px solid #0ff; padding: 15px; border-radius: 10px; box-shadow: 0 0 15px #0ff; }
+  </style>
+</head>
+<body class="bg-dark text-light">
+
+  <!-- Navbar igual ao index -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link menu-link" href="index.html">Início</a></li>
+        <li class="nav-item"><a class="nav-link menu-link" href="personagem.html">Personagem</a></li>
+        <li class="nav-item"><a class="nav-link menu-link active" href="jogue.html">Jogue</a></li>
+        <li class="nav-item"><a class="nav-link menu-link" href="ranking.html">Ranking</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Título -->
+  <div class="container text-center mt-4">
+    <h1>Mini Game - KOF Style</h1>
+    <p>Digite seu nome e lute!</p>
+    <input type="text" id="playerName" class="form-control w-50 mx-auto mt-2" placeholder="Seu nome">
+    <button class="btn btn-primary mt-2" onclick="startGame()">Começar</button>
+  </div>
+
+  <!-- Barras de vida -->
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col">
+        <div class="hp-bar"><div id="hpKyo" class="hp-fill" style="width:100%"></div></div>
+        <p>Kyo</p>
+      </div>
+      <div class="col text-end">
+        <div class="hp-bar"><div id="hpIori" class="hp-fill" style="width:100%"></div></div>
+        <p>Iori</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Canvas do jogo -->
+  <div class="container text-center">
+    <canvas id="gameCanvas" width="600" height="300"></canvas>
+  </div>
+
+  <!-- Tutorial -->
+  <div class="container text-center mt-4">
+    <h2>🎮 Tutorial de Controles</h2>
+    <div class="tutorial text-start mx-auto" style="max-width: 500px;">
+      <p><strong>Kyo (vermelho):</strong></p>
+      <ul>
+        <li>➡️ Seta Direita: andar para frente</li>
+        <li>⬅️ Seta Esquerda: andar para trás</li>
+        <li>␣ Espaço: ataque</li>
+      </ul>
+      <p><strong>Iori (azul):</strong></p>
+      <ul>
+        <li>🇦 Tecla A: andar para trás</li>
+        <li>🇩 Tecla D: andar para frente</li>
+        <li>🇸 Tecla S: ataque</li>
+      </ul>
+      <p><strong>Objetivo:</strong> Reduza a barra de vida do adversário até 0 para vencer!</p>
+    </div>
+  </div>
+
+  <!-- Script do jogo -->
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let playerName = "";
+    let victories = 0;
+
+    const kyo = { x: 50, y: 200, color: "red", w: 40, h: 80, attacking: false, hp: 100 };
+    const iori = { x: 500, y: 200, color: "blue", w: 40, h: 80, attacking: false, hp: 100 };
+
+    function startGame() {
+      playerName = document.getElementById("playerName").value || "Jogador";
+      alert("Bem-vindo, " + playerName + "! Boa sorte!");
+      kyo.hp = 100;
+      iori.hp = 100;
+      updateHP();
+    }
+
+    document.addEventListener("keydown", (e) => {
+      switch(e.key) {
+        case "ArrowRight": kyo.x += 10; break;
+        case "ArrowLeft": kyo.x -= 10; break;
+        case " ": kyo.attacking = true; break;
+        case "d": iori.x += 10; break;
+        case "a": iori.x -= 10; break;
+        case "s": iori.attacking = true; break;
+      }
+    });
+
+    document.addEventListener("keyup", (e) => {
+      if(e.key === " ") kyo.attacking = false;
+      if(e.key === "s") iori.attacking = false;
+    });
+
+    function updateHP() {
+      document.getElementById("hpKyo").style.width = kyo.hp + "%";
+      document.getElementById("hpIori").style.width = iori.hp + "%";
+      if(kyo.hp <= 0) endGame("Iori");
+      if(iori.hp <= 0) endGame(playerName);
+    }
+
+    function endGame(winner) {
+      alert("Vitória de " + winner + "!");
+      if(winner === playerName) {
+        victories++;
+        const ranking = JSON.parse(localStorage.getItem("ranking")) || [];
+        const existing = ranking.find(r => r.name === playerName);
+        if (existing) {
+          existing.victories = victories;
+        } else {
+          ranking.push({ name: playerName, victories: victories });
+        }
+        localStorage.setItem("ranking", JSON.stringify(ranking));
+      }
+      kyo.hp = 100;
+      iori.hp = 100;
+      updateHP();
+    }
+
+    function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      // Kyo
+      ctx.fillStyle = kyo.color;
+      ctx.fillRect(kyo.x, kyo.y, kyo.w, kyo.h);
+      if(kyo.attacking) {
+        ctx.fillStyle = "yellow";
+        ctx.fillRect(kyo.x + kyo.w, kyo.y + 20, 20, 20);
+        if(Math.abs((kyo.x + kyo.w) - iori.x) < 30) {
+          iori.hp -= 5;
+          updateHP();
+        }
+      }
+
+      // Iori
+      ctx.fillStyle = iori.color;
+      ctx.fillRect(iori.x, iori.y, iori.w, iori.h);
+      if(iori.attacking) {
+        ctx.fillStyle = "purple";
+        ctx.fillRect(iori.x - 20, iori.y + 20, 20, 20);
+        if(Math.abs((iori.x - 20) - (kyo.x + kyo.w)) < 30) {
+          kyo.hp -= 5;
+          updateHP();
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+
+</body>
+</html>

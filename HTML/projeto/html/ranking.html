@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking - The King of Fighters</title>
+  <!-- Bootstrap 5.3.8 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Fonte arcade -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body { background: #111; color: #fff; font-family: 'Press Start 2P', cursive; }
+    h1, h2 { text-shadow: 0 0 10px #ff0040; }
+    .tutorial { border: 2px solid #0ff; padding: 15px; border-radius: 10px; box-shadow: 0 0 15px #0ff; }
+  </style>
+</head>
+<body class="bg-dark text-light">
+
+  <!-- Navbar igual às outras páginas -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link menu-link" href="index.html">Início</a></li>
+        <li class="nav-item"><a class="nav-link menu-link" href="personagem.html">Personagem</a></li>
+        <li class="nav-item"><a class="nav-link menu-link" href="jogue.html">Jogue</a></li>
+        <li class="nav-item"><a class="nav-link menu-link active" href="ranking.html">Ranking</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Título -->
+  <div class="container text-center mt-4">
+    <h1>🏆 Ranking de Jogadores</h1>
+  </div>
+
+  <!-- Tutorial -->
+  <div class="container text-center mt-4">
+    <h2>📖 Tutorial de Ranking</h2>
+    <div class="tutorial text-start mx-auto" style="max-width: 600px;">
+      <ul>
+        <li>Digite seu nome na página <strong>Jogue</strong> antes de começar.</li>
+        <li>Cada vitória será registrada automaticamente no ranking.</li>
+        <li>O ranking mostra todos os jogadores que já jogaram neste navegador.</li>
+        <li>Os nomes aparecem ordenados pelo número de vitórias.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Tabela de Ranking -->
+  <div class="container mt-4">
+    <table class="table table-dark table-striped text-center">
+      <thead>
+        <tr>
+          <th>Jogador</th>
+          <th>Vitórias</th>
+        </tr>
+      </thead>
+      <tbody id="rankingTable"></tbody>
+    </table>
+  </div>
+
+  <!-- Script para carregar ranking -->
+  <script>
+    const ranking = JSON.parse(localStorage.getItem("ranking")) || [];
+    const table = document.getElementById("rankingTable");
+    ranking.sort((a,b) => b.victories - a.victories);
+    ranking.forEach(r => {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${r.name}</td><td>${r.victories}</td>`;
+      table.appendChild(row);
+    });
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
