@@ -36,7 +36,7 @@
 /* Efeito hover neon */
 .menu-link:hover {
   color: #ff0040 !important;
-  text-shadow: 0 0 5px #ff0040, 0 0 10px #ff0040;
+  text-shadow: 0 0 5px #ff0040, 0 0 10px #00ff37;
 }
 
 /* Animação ao clicar */
@@ -64,4 +64,8 @@
 
 .menu-link:hover::after {
   width: 100%;
+}
+
+span > h1 {
+  background-color: #0ff
 }
