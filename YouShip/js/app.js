@@ -40,8 +40,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const filterSelect = document.getElementById('filterSelect');
     let filteredVideos = [];
 
-    // tentar carregar js/cards.json via fetch
-    fetch('js/cards.json').then(r=>{
+    // determinar prefixo para assets quando estamos dentro de /html/
+    const inHtmlFolder = location.pathname.indexOf('/html/') !== -1;
+    const assetsPrefix = inHtmlFolder ? '../' : '';
+
+    // tentar carregar js/cards.json via fetch (usa prefix quando necessário)
+    fetch(`${assetsPrefix}js/cards.json`).then(r=>{
         if(!r.ok) throw new Error('no-json');
         return r.json();
     }).then(data=>{
@@ -72,6 +76,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
             filteredVideos.sort((a,b)=> (b.ts||0) - (a.ts||0));
         }else if(sel === 'views'){
             filteredVideos.sort((a,b)=> (b.viewsCount||0) - (a.viewsCount||0));
+        }else if(sel === 'starting'){
+            // transmissões iniciando/ao vivo (heurística: time contém 'Agora' ou viewsText contém 'assistindo')
+            filteredVideos = filteredVideos.filter(v=> (typeof v.time === 'string' && v.time.toLowerCase().indexOf('agora')!==-1) || (typeof v.viewsText === 'string' && v.viewsText.toLowerCase().indexOf('assistindo')!==-1));
         }else if(sel === 'ao-vivo'){
             filteredVideos = filteredVideos.filter(v=> v.category === 'ao-vivo');
         }else if(sel === 'louvor'){
@@ -82,7 +89,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     // paginação simples
-    const pageSize = 8;
+    const pageSize = 6;
     let page = 0;
     let loading = false;
 
@@ -122,6 +129,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
         subscribeBtn.addEventListener('click', (e)=>{
             e.stopPropagation();
             const now = toggleSubscription(v.channel);
+            // se retornou null, redirecionamos para login/cadastro — não atualizamos o texto
+            if(now === null) return;
             subscribeBtn.textContent = now ? 'Inscrito' : 'Inscrever-se';
         });
 
@@ -139,9 +148,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
         // click on card => registrar histórico e navegar para a página de vídeo
         card.addEventListener('click', ()=>{
             try{ addToHistory(v); }catch(e){/* ignore */}
-            // Se o vídeo tiver um id, navegamos para video.html?id=<id>
-            const id = v.id || encodeURIComponent(v.title);
-            window.location.href = `video.html?id=${encodeURIComponent(id)}`;
+                // Se o vídeo tiver um id, navegamos para video.html?id=<id>
+                const id = v.id || encodeURIComponent(v.title);
+                // se estivermos em /html/ o player está na mesma pasta; caso contrário está em html/video.html
+                const videoTarget = location.pathname.indexOf('/html/') !== -1 ? 'video.html' : 'html/video.html';
+                window.location.href = `${videoTarget}?id=${encodeURIComponent(id)}`;
         });
 
         return col;
@@ -224,8 +235,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }catch(e){ console.error(e); }
     }
 
-    // subscriptions
+    // subscriptions (exige autenticação)
     function toggleSubscription(channel){
+        const auth = localStorage.getItem('youshipAuth');
+        const inHtml = location.pathname.indexOf('/html/') !== -1;
+        const loginPath = inHtml ? 'login.html' : 'html/login.html';
+        const registerPath = inHtml ? 'cadastro.html' : 'html/cadastro.html';
+        if(!auth){
+            const go = confirm('Você precisa entrar para se inscrever neste canal. Deseja entrar agora? (OK = Entrar / Cancel = Criar conta)');
+            if(go) window.location.href = loginPath; else window.location.href = registerPath;
+            return null; // sinal de redirecionamento
+        }
         const key = 'youshipSubscriptions';
         const raw = localStorage.getItem(key);
         const arr = raw ? JSON.parse(raw) : [];
