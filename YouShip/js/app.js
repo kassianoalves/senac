@@ -1,5 +1,20 @@
+/*
+    app.js - YouShip client logic
+
+    Responsabilidades:
+    - Carregar lista de vídeos (js/cards.json) com fallback embutido
+    - Aplicar filtros (relevância, recentes, mais vistos, por categoria)
+    - Paginação (8 por página) com botão "Carregar mais" e infinite scroll
+    - Renderizar cards dinamicamente em #cardsRow
+    - Gerenciar histórico (localStorage: youshipHistory) e inscrições (youshipSubscriptions)
+    - Navegar para video.html?id=<id> quando usuário clica em um card
+
+    Dicas de personalização:
+    - Altere pageSize para ajustar quantos vídeos por carregamento
+    - Edite js/cards.json para adicionar/alterar vídeos (use 'id' e opcional 'file' para arquivos locais)
+*/
 document.addEventListener('DOMContentLoaded', ()=>{
-    const container = document.getElementById('cardsRow');
+        const container = document.getElementById('cardsRow');
     if(!container) return;
 
     // tentar buscar um JSON local (js/cards.json). Se falhar, usar dados embutidos.
@@ -121,12 +136,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
         card.appendChild(body);
         col.appendChild(card);
 
-        // click on card => add to history (simulate view)
+        // click on card => registrar histórico e navegar para a página de vídeo
         card.addEventListener('click', ()=>{
-            addToHistory(v);
-            // no navigation for now; show a quick feedback
-            const prev = card.querySelector('.video-meta');
-            if(prev) prev.textContent = `${v.channel} • ${v.viewsText || v.views || ''} • ${v.time}`;
+            try{ addToHistory(v); }catch(e){/* ignore */}
+            // Se o vídeo tiver um id, navegamos para video.html?id=<id>
+            const id = v.id || encodeURIComponent(v.title);
+            window.location.href = `video.html?id=${encodeURIComponent(id)}`;
         });
 
         return col;
@@ -141,7 +156,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         page++;
         loading = false;
         // se esgotou os itens, remover o observer e botão de load
-        if(page * pageSize >= videos.length){
+        if(page * pageSize >= filteredVideos.length){
             if(loadMoreBtn) loadMoreBtn.style.display = 'none';
             if(observer) observer.disconnect();
         }

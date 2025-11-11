@@ -2,6 +2,11 @@
     --youship-orange: #ff7a00;
     --youship-dark: #2b2b2b;
 }
+/*
+    css/style.css
+    - Variáveis principais e estilos básicos do YouShip
+    - Modifique as cores nas variáveis :root para personalizar tema
+*/
 
 body {
     background: #f8f9fa;
@@ -102,4 +107,12 @@ body {
 }
 .offcanvas .nav-link i {
     color: var(--youship-orange);
+}
+
+/* Hot fire animation used next to "Em alta" */
+.hot-fire{ display:inline-block; margin-left:8px; transform-origin:center; animation:hotPulse 1s infinite; }
+@keyframes hotPulse{
+    0%{ transform: translateY(0) scale(1); opacity:1 }
+    50%{ transform: translateY(-4px) scale(1.08); opacity:0.95 }
+    100%{ transform: translateY(0) scale(1); opacity:1 }
 }

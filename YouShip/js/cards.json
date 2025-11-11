@@ -1,23 +1,14 @@
 [
-  {"title":"Worship — Adoração (Exemplo)","channel":"YouShip Música","viewsText":"125 mil visualizações","viewsCount":125000,"time":"2 dias","thumb":"https://via.placeholder.com/480x270/ff7a00/ffffff?text=YouShip+Thumb","category":"louvor","ts":1700000000},
-  {"title":"Culto Ao Vivo — Domingo","channel":"Igreja Exemplo","viewsText":"12 mil assistindo","viewsCount":12000,"time":"Agora","thumb":"https://via.placeholder.com/480x270/ffd2b3/333333?text=Ao+Vivo","category":"ao-vivo","ts":1700000500},
-  {"title":"PodCast — Episódio 12","channel":"Canal PodCast","viewsText":"8.4 mil visualizações","viewsCount":8400,"time":"1 semana","thumb":"https://via.placeholder.com/480x270/ffe6cc/333333?text=Podcast","category":"podcast","ts":1699000000},
-  {"title":"Louvor — Clipe Oficial","channel":"Artista X","viewsText":"41 mil visualizações","viewsCount":41000,"time":"3 dias","thumb":"https://via.placeholder.com/480x270/ffd6a6/333333?text=Louvor","category":"louvor","ts":1700002000},
-  {"title":"Sermão — Mensagem","channel":"Pastor Y","viewsText":"22 mil visualizações","viewsCount":22000,"time":"1 mês","thumb":"https://via.placeholder.com/480x270/ffb266/333333?text=Sermão","category":"ao-vivo","ts":1698000000},
-  {"title":"Entrevista com Convidado","channel":"Canal Conversas","viewsText":"9.1 mil visualizações","viewsCount":9100,"time":"2 semanas","thumb":"https://via.placeholder.com/480x270/ffd9b8/333333?text=Entrevista","category":"podcast","ts":1699500000},
-  {"title":"Ensino Bíblico — Aula","channel":"Canal Ensino","viewsText":"3.2 mil visualizações","viewsCount":3200,"time":"5 dias","thumb":"https://via.placeholder.com/480x270/ffc9a0/333333?text=Ensino","category":"home","ts":1700001000},
-  {"title":"Louvor Acústico","channel":"Banda Z","viewsText":"18 mil visualizações","viewsCount":18000,"time":"4 dias","thumb":"https://via.placeholder.com/480x270/ffcc99/333333?text=Louvor+Acústico","category":"louvor","ts":1700003000},
-  {"title":"Culto Especial — Ao Vivo","channel":"Igreja Exemplo","viewsText":"7.5 mil assistindo","viewsCount":7500,"time":"Agora","thumb":"https://via.placeholder.com/480x270/ffb3a7/333333?text=Ao+Vivo+2","category":"ao-vivo","ts":1700003500},
-  {"title":"PodCast — Bate-papo","channel":"PodCast Live","viewsText":"2.3 mil visualizações","viewsCount":2300,"time":"3 dias","thumb":"https://via.placeholder.com/480x270/ffe0c2/333333?text=Podcast+2","category":"podcast","ts":1700004000},
-  {"title":"Reflexão Diária","channel":"Canal Reflexão","viewsText":"9.9 mil visualizações","viewsCount":9900,"time":"6 dias","thumb":"https://via.placeholder.com/480x270/ffd1b3/333333?text=Reflexão","category":"home","ts":1699900000},
-  {"title":"Clipes Selecionados","channel":"Canal Clipes","viewsText":"55 mil visualizações","viewsCount":55000,"time":"1 semana","thumb":"https://via.placeholder.com/480x270/ffb38f/333333?text=Clipes","category":"louvor","ts":1699800000}
-]
-[
-  {
-    "title": "Worship — Adoração (Exemplo)",
-    "channel": "Canal YouShip",
-    "views": "125 mil visualizações",
-    "time": "2 dias",
-    "thumb": "https://via.placeholder.com/480x270/ff7a00/ffffff?text=YouShip+Thumb"
-  }
+  {"id":"v1","title":"Worship — Adoração (Exemplo)","channel":"YouShip Música","viewsText":"125 mil visualizações","viewsCount":125000,"time":"2 dias","thumb":"https://via.placeholder.com/480x270/ff7a00/ffffff?text=YouShip+Thumb","category":"louvor","ts":1700000000,"file":"videos/v1.mp4"},
+  {"id":"v2","title":"Culto Ao Vivo — Domingo","channel":"Igreja Exemplo","viewsText":"12 mil assistindo","viewsCount":12000,"time":"Agora","thumb":"https://via.placeholder.com/480x270/ffd2b3/333333?text=Ao+Vivo","category":"ao-vivo","ts":1700000500,"file":"videos/v2.mp4"},
+  {"id":"v3","title":"PodCast — Episódio 12","channel":"Canal PodCast","viewsText":"8.4 mil visualizações","viewsCount":8400,"time":"1 semana","thumb":"https://via.placeholder.com/480x270/ffe6cc/333333?text=Podcast","category":"podcast","ts":1699000000},
+  {"id":"v4","title":"Louvor — Clipe Oficial","channel":"Artista X","viewsText":"41 mil visualizações","viewsCount":41000,"time":"3 dias","thumb":"https://via.placeholder.com/480x270/ffd6a6/333333?text=Louvor","category":"louvor","ts":1700002000},
+  {"id":"v5","title":"Sermão — Mensagem","channel":"Pastor Y","viewsText":"22 mil visualizações","viewsCount":22000,"time":"1 mês","thumb":"https://via.placeholder.com/480x270/ffb266/333333?text=Sermão","category":"ao-vivo","ts":1698000000},
+  {"id":"v6","title":"Entrevista com Convidado","channel":"Canal Conversas","viewsText":"9.1 mil visualizações","viewsCount":9100,"time":"2 semanas","thumb":"https://via.placeholder.com/480x270/ffd9b8/333333?text=Entrevista","category":"podcast","ts":1699500000},
+  {"id":"v7","title":"Ensino Bíblico — Aula","channel":"Canal Ensino","viewsText":"3.2 mil visualizações","viewsCount":3200,"time":"5 dias","thumb":"https://via.placeholder.com/480x270/ffc9a0/333333?text=Ensino","category":"home","ts":1700001000},
+  {"id":"v8","title":"Louvor Acústico","channel":"Banda Z","viewsText":"18 mil visualizações","viewsCount":18000,"time":"4 dias","thumb":"https://via.placeholder.com/480x270/ffcc99/333333?text=Louvor+Acústico","category":"louvor","ts":1700003000},
+  {"id":"v9","title":"Culto Especial — Ao Vivo","channel":"Igreja Exemplo","viewsText":"7.5 mil assistindo","viewsCount":7500,"time":"Agora","thumb":"https://via.placeholder.com/480x270/ffb3a7/333333?text=Ao+Vivo+2","category":"ao-vivo","ts":1700003500},
+  {"id":"v10","title":"PodCast — Bate-papo","channel":"PodCast Live","viewsText":"2.3 mil visualizações","viewsCount":2300,"time":"3 dias","thumb":"https://via.placeholder.com/480x270/ffe0c2/333333?text=Podcast+2","category":"podcast","ts":1700004000},
+  {"id":"v11","title":"Reflexão Diária","channel":"Canal Reflexão","viewsText":"9.9 mil visualizações","viewsCount":9900,"time":"6 dias","thumb":"https://via.placeholder.com/480x270/ffd1b3/333333?text=Reflexão","category":"home","ts":1699900000},
+  {"id":"v12","title":"Clipes Selecionados","channel":"Canal Clipes","viewsText":"55 mil visualizações","viewsCount":55000,"time":"1 semana","thumb":"https://via.placeholder.com/480x270/ffb38f/333333?text=Clipes","category":"louvor","ts":1699800000}
 ]
