@@ -1,0 +1,113 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('../Sites/images/back2.jpg');
+    background-repeat: no-repeat;
+    margin: 0px;
+    display: flexbox;
+    align-items: inline;
+}
+main {
+    display: flexbox;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    position: relative;
+    margin: 0px;
+}
+figure {
+    display: block; /* Padrão, mas pode ser ajustado */
+    margin: auto; /* Centraliza a figura */
+    max-width: fit-content; /* Define uma largura máxima */
+    position: relative;
+    text-align: center;
+    justify-content: center
+
+
+}
+.cavaleiro { 
+    border: 5px solid #000000;
+    border-radius: 8px;
+    width: 280px;
+    max-height: fit-content;
+    margin: 0px;
+    position: absolute;
+    top: 35px;
+    left: -550px;
+    opacity: calc(0%);
+ 
+}
+.face {
+    border: 5px solid #000000;
+    border-radius: 8px;
+    width: 280px;
+    max-height: fit-content;
+    margin: 0px;
+    position: absolute;
+    top: 0px;
+    left: -50px;
+    opacity: calc(0%);
+}
+.card {
+    border: 5px solid #000000;
+    border-radius: 8px;
+    width: 280px;
+    max-height: fit-content;
+    margin: 0px;
+    position: absolute;
+    top: -35px;
+    left: 550px;
+    opacity: calc(0%);
+}
+.fig_card {
+    position: absolute;
+    font-style: italic; /* Formata o texto da legenda */
+    font-size: 18px;
+    color: #ffffff;
+    margin-top: 10px;
+    position: relative;
+   left: 550px;
+    top: -60px;
+}
+.fig_face {
+    position: absolute;
+    font-style: italic; /* Formata o texto da legenda */
+    font-size: 18px;
+    color: #ffffff;
+    margin-top: 10px;
+    position: relative;
+    left:0;
+    top: -30px;
+}
+.fig_cavaleiro {
+    position: absolute;
+    font-style: italic; /* Formata o texto da legenda */
+    font-size: 18px;
+    color: #ffffff;
+    margin-top: 10px;
+    position: relative;
+    left: -535px;
+    top: 10px;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    opacity: calc(100%);
+}
+.face:hover {
+    transform: translateY(-10px);
+    opacity: calc(100%);
+}
+.cavaleiro:hover {
+    transform: translateY(-10px);
+    opacity: calc(100%);
+}
+
+footer {
+    background-color: rgb(3, 26, 128);
+    color: white;
+    text-align: center;
+    padding: 1px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
