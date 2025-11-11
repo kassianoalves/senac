@@ -14,7 +14,7 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 
-<body>
+<body data-page="home">
 
         <nav class="navbar navbar-expand-lg navbar-youship px-3">
         <div class="container-fluid">
@@ -110,12 +110,27 @@
             </aside>
 
             <main class="col-12 col-md-9 col-lg-10 p-3">
-                <section class="mb-3">
+                                <section class="mb-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Em alta</h5>
                         <small class="text-muted">Mais relevantes</small>
                     </div>
                 </section>
+
+                                <!-- Filtros -->
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div>
+                                        <select id="filterSelect" class="form-select form-select-sm">
+                                            <option value="relevant" selected>Mais relevantes</option>
+                                            <option value="recent">Mais recentes</option>
+                                            <option value="views">Mais vistos</option>
+                                            <option value="ao-vivo">Ao Vivo</option>
+                                            <option value="louvor">Louvor</option>
+                                            <option value="podcast">PodCast</option>
+                                        </select>
+                                    </div>
+                                    <div class="ms-auto small text-muted">Filtrar por</div>
+                                </div>
 
                 <section>
                     <div id="cardsRow" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">

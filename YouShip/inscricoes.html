@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YouShip — Inscrições</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container py-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Inscrições</h3>
+        <a href="perfil.html" class="btn btn-link">Voltar</a>
+      </div>
+      <div id="subsList" class="row g-3"></div>
+    </div>
+
+    <script>
+      function renderSubs(){
+        const raw = localStorage.getItem('youshipSubscriptions');
+        const arr = raw ? JSON.parse(raw) : [];
+        const list = document.getElementById('subsList');
+        list.innerHTML = '';
+        if(arr.length===0){ list.innerHTML = '<div class="text-muted">Nenhuma inscrição.</div>'; return; }
+        arr.forEach(ch=>{
+          const col = document.createElement('div'); col.className='col-12';
+          col.innerHTML = `<div class="card p-2 d-flex align-items-center justify-content-between"><div><strong>${ch}</strong><div class="small text-muted">Canal</div></div><div><button class="btn btn-sm btn-outline-danger">Cancelar</button></div></div>`;
+          const btn = col.querySelector('button');
+          btn.addEventListener('click', ()=>{ const raw2 = JSON.parse(localStorage.getItem('youshipSubscriptions')||'[]'); const idx = raw2.indexOf(ch); if(idx!==-1){ raw2.splice(idx,1); localStorage.setItem('youshipSubscriptions', JSON.stringify(raw2)); renderSubs(); } });
+          list.appendChild(col);
+        });
+      }
+      document.addEventListener('DOMContentLoaded', renderSubs);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
