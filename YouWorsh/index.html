@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>YouWorsh — Página Inicial</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-6Qm6YQm+6Qm6YQm+6Qm6YQm+6Qm6YQm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-dark text-light">
+    <!-- Navbar Bootstrap -->
+    <nav class="navbar navbar-dark bg-dark border-bottom border-secondary sticky-top">
+        <div class="container-fluid">
+            <!-- Logo e menu toggle -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="images/logo.svg" alt="YouWorsh" height="36">
+                <span>YouWorsh</span>
+            </a>
+            
+            <!-- Barra de busca (center) -->
+            <form class="d-none d-md-flex flex-grow-1 mx-3" role="search">
+                <input id="searchInput" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Pesquisar..." aria-label="Pesquisar">
+                <button id="searchBtn" class="btn btn-outline-light btn-sm ms-2">🔍</button>
+            </form>
+            
+            <!-- Botões do lado direito -->
+            <div class="d-flex align-items-center gap-2">
+                <button id="favToggle" class="btn btn-outline-light btn-sm" title="Favoritos">★</button>
+                <button class="btn btn-outline-light btn-sm d-none d-md-block">⤴</button>
+                <a href="login.html" class="btn btn-outline-light rounded-circle" title="Perfil" style="width:36px;height:36px;padding:0;">◎</a>
+                <!-- Toggle para offcanvas (Sidebar) -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="d-flex">
+        <!-- Offcanvas Sidebar (mobile) / Sidebar (desktop) -->
+        <div class="offcanvas offcanvas-start bg-dark text-light d-md-block d-md-w-auto" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel" style="width:220px !important;">
+            <div class="offcanvas-header d-md-none">
+                <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Menu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+            </div>
+            <div class="offcanvas-body p-0">
+                <nav class="navbar-nav flex-column w-100">
+                    <a class="nav-link active ps-3 py-2 border-bottom border-secondary" href="index.html">Início</a>
+                    <a class="nav-link ps-3 py-2 border-bottom border-secondary" href="ao-vivo.html">Ao vivo</a>
+                    <a class="nav-link ps-3 py-2 border-bottom border-secondary" href="louvor/index.html">Louvor</a>
+                    <a class="nav-link ps-3 py-2 border-bottom border-secondary" href="podcast/index.html">PodCast</a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Conteúdo principal -->
+        <main class="flex-grow-1 p-4">
+            <section class="hero mb-4">
+                <h2>Recomendados</h2>
+            </section>
+
+            <section id="videos" class="video-grid">
+                <!-- Os cards serão renderizados dinamicamente a partir de videos.json -->
+            </section>
+            <div class="load-more-wrap text-center mt-4 mb-5">
+                <button id="loadMoreBtn" class="btn btn-outline-light">Carregar mais</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de vídeo (fictício) -->
+    <div id="videoModal" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="modalTitle">Título do vídeo</h5>
+                    <button type="button" class="btn-close btn-close-white" id="modalClose" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="player-placeholder bg-black rounded" id="playerPlaceholder" style="width:100%;padding-bottom:56.25%;position:relative;">
+                        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:48px;">▶</div>
+                    </div>
+                    <p id="modalChannel" class="text-muted mt-3">Canal • info</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mini-player fixo (bottom) -->
+    <div id="miniPlayer" class="mini-player bg-dark border-top border-secondary" style="position:fixed;bottom:0;left:0;right:0;padding:12px;display:none;z-index:1000;">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center gap-2">
+                <small class="text-muted" id="miniTitle" style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Nenhum áudio</small>
+                <audio id="miniAudio" controls style="flex:2;"></audio>
+                <button class="btn btn-sm btn-outline-light" onclick="document.getElementById('miniPlayer').style.display='none'">✕</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-6Qm6YQm+6Qm6YQm+6Qm6YQm+6Qm6YQm" crossorigin="anonymous"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

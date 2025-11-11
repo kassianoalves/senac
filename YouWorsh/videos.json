@@ -1,0 +1,100 @@
+[
+  {
+    "id": "v1",
+    "title": "Introdução ao YouWorsh - Exemplo 1",
+    "channel": "Canal Exemplo",
+    "views": "1,2 mi visualizações",
+    "age": "2 dias",
+    "thumb": "images/thumb1.svg"
+  },
+  {
+    "id": "v2",
+    "title": "Como criar layouts responsivos",
+    "channel": "Design Demo",
+    "views": "350 mil visualizações",
+    "age": "1 semana",
+    "thumb": "images/thumb2.svg"
+  },
+  {
+    "id": "v3",
+    "title": "JavaScript: manipulação do DOM",
+    "channel": "Dev Channel",
+    "views": "98 mil visualizações",
+    "age": "3 dias",
+    "thumb": "images/thumb3.svg"
+  },
+  {
+    "id": "v4",
+    "title": "Criando animações com CSS",
+    "channel": "Canal Exemplo",
+    "views": "20 mil visualizações",
+    "age": "5 dias",
+    "thumb": "images/thumb4.svg"
+  },
+  {
+    "id": "v5",
+    "title": "HTML semântico para iniciantes",
+    "channel": "Tutorial Hoje",
+    "views": "2,1 mi visualizações",
+    "age": "1 mês",
+    "thumb": "images/thumb5.svg"
+  },
+  {
+    "id": "v6",
+    "title": "Melhore sua produtividade com atalhos",
+    "channel": "Produtividade Pro",
+    "views": "5,5 mi visualizações",
+    "age": "2 anos",
+    "thumb": "images/thumb2.svg"
+  }
+ ,
+  {
+    "id": "v7",
+    "title": "Dicas rápidas de CSS",
+    "channel": "Design Demo",
+    "views": "420 mil visualizações",
+    "age": "4 dias",
+    "thumb": "images/thumb4.svg"
+  },
+  {
+    "id": "v8",
+    "title": "Introdução ao Git e GitHub",
+    "channel": "Dev Channel",
+    "views": "1,1 mi visualizações",
+    "age": "6 meses",
+    "thumb": "images/thumb5.svg"
+  },
+  {
+    "id": "v9",
+    "title": "Criando sites acessíveis",
+    "channel": "Tutorial Hoje",
+    "views": "88 mil visualizações",
+    "age": "8 dias",
+    "thumb": "images/thumb1.svg"
+  },
+  {
+    "id": "v10",
+    "title": "Debugging JavaScript: ferramentas e técnicas",
+    "channel": "Dev Channel",
+    "views": "300 mil visualizações",
+    "age": "2 semanas",
+    "thumb": ""
+  },
+  {
+    "id": "v11",
+    "title": "Workflow com VS Code",
+    "channel": "Produtividade Pro",
+    "views": "150 mil visualizações",
+    "age": "3 meses",
+    "thumb": ""
+  },
+  {
+    "id": "v12",
+    "title": "Modelos CSS modernos (flexbox/grid)",
+    "channel": "Canal Exemplo",
+    "views": "2,4 mi visualizações",
+    "age": "1 ano",
+    "thumb": "images/thumb3.svg"
+  }
+]
+

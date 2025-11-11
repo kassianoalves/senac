@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
+  <rect width="480" height="270" fill="#1b3a2a"/>
+  <circle cx="240" cy="135" r="60" fill="#ffb86b"/>
+  <text x="200" y="150" font-family="Segoe UI, Roboto" font-size="28" fill="#111">Thumb 5</text>
+</svg>
