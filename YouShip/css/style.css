@@ -1,0 +1,105 @@
+:root {
+    --youship-orange: #ff7a00;
+    --youship-dark: #2b2b2b;
+}
+
+body {
+    background: #f8f9fa;
+}
+
+/* Topbar */
+.navbar-youship {
+    background: linear-gradient(90deg, #fff, #fff);
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.brand {
+    color: var(--youship-orange);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.btn-youship {
+    background: var(--youship-orange);
+    color: #fff;
+    border: 0;
+}
+
+.btn-youship:hover {
+    background: #ff8f2b;
+}
+
+/* Sidebar */
+.sidebar {
+    min-height: calc(100vh - 56px);
+    border-right: 1px solid #e9ecef;
+    background: #fff;
+}
+
+.sidebar .nav-link {
+    color: #333;
+}
+
+.sidebar .nav-link.active {
+    color: var(--youship-orange);
+    font-weight: 600;
+}
+
+/* Video cards */
+.card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.thumb {
+    background: #ddd;
+    height: 140px;
+    display: block;
+    width: 100%;
+    object-fit: cover;
+}
+
+@media(min-width:1200px) {
+    .thumb {
+        height: 150px;
+    }
+}
+
+.video-meta {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+/* Small touches */
+.chip-live {
+    background: #ff4d00;
+    color: #fff;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+/* Pequenos ajustes para o container de cards dinâmicos */
+#cardsRow .card {
+    height: 100%;
+}
+
+#cardsRow .card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Banner area */
+#bannerArea {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Offcanvas adjustments */
+.offcanvas .nav-link {
+    padding: 0.5rem 0;
+}
+.offcanvas .nav-link i {
+    color: var(--youship-orange);
+}
