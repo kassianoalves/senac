@@ -60,6 +60,23 @@
 
 */
 document.addEventListener('DOMContentLoaded', () => {
+    // determinar prefixo para assets quando estamos dentro de /html/
+    const inHtmlFolder = location.pathname.indexOf('/html/') !== -1;
+    const assetsPrefix = inHtmlFolder ? '../' : '';
+
+    // função para deduplicar vídeos por ID
+    function deduplicateVideos(videosArray) {
+        const seen = new Set();
+        return videosArray.filter(video => {
+            const id = video.id || video.title;
+            if (seen.has(id)) {
+                return false;
+            }
+            seen.add(id);
+            return true;
+        });
+    }
+
     const container = document.getElementById('cardsRow');
     if (!container) return;
 
@@ -85,10 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageCategory = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'home';
     const filterSelect = document.getElementById('filterSelect');
     let filteredVideos = [];
-
-    // determinar prefixo para assets quando estamos dentro de /html/
-    const inHtmlFolder = location.pathname.indexOf('/html/') !== -1;
-    const assetsPrefix = inHtmlFolder ? '../' : '';
 
     // tentar carregar js/cards.json via fetch (usa prefix quando necessário)
     fetch(`${assetsPrefix}js/cards.json`).then(r => {
