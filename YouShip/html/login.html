@@ -35,19 +35,31 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../js/header.js"></script>
+  <script src="../js/user-db.js"></script>
   <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e){
+    document.getElementById('loginForm').addEventListener('submit', async function(e){
       e.preventDefault();
       const email = document.getElementById('email').value;
-      // login demo: guarda marcador simples
-      localStorage.setItem('youshipAuth', email);
-      // criar youshipUser se não existir
-      if(!localStorage.getItem('youshipUser')){
-        localStorage.setItem('youshipUser', JSON.stringify({email: email, name: email.split('@')[0]}));
+      const password = document.getElementById('password').value;
+
+      try {
+        const user = await YouShipUserDB.getUserByEmail(email);
+
+        if (user && user.password === password) {
+          // Login bem-sucedido
+          localStorage.setItem('youshipAuth', email);
+          localStorage.setItem('youshipUser', JSON.stringify({email: user.email, name: user.name}));
+          
+          // após login, retornar para a página anterior
+          const ref = document.referrer || '../index.html';
+          location.href = ref;
+        } else {
+          alert('E-mail ou senha incorretos.');
+        }
+      } catch (error) {
+        console.error('Erro durante o login:', error);
+        alert('Ocorreu um erro ao tentar fazer login. Por favor, tente novamente.');
       }
-      // após login, retornar para a página anterior
-      const ref = document.referrer || '../index.html';
-      location.href = ref;
     });
   </script>
 </body>

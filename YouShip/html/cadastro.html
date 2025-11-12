@@ -39,14 +39,36 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../js/header.js"></script>
+  <script src="../js/user-db.js"></script>
   <script>
-    document.getElementById('regForm').addEventListener('submit', function(e){
+    document.getElementById('regForm').addEventListener('submit', async function(e){
       e.preventDefault();
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
-      localStorage.setItem('youshipUser', JSON.stringify({name:name,email:email}));
-      localStorage.setItem('youshipAuth', email);
-      location.href = '../index.html';
+      const password = document.getElementById('password').value;
+
+      try {
+        // Verifica se o e-mail já está cadastrado
+        const existingUser = await YouShipUserDB.getUserByEmail(email);
+        if (existingUser) {
+          alert('Este e-mail já está cadastrado. Por favor, use um e-mail diferente ou faça login.');
+          return;
+        }
+
+        // Adiciona o novo usuário
+        const newUser = { name, email, password }; // Senha não é armazenada de forma segura, apenas para demonstração
+        await YouShipUserDB.addUser(newUser);
+
+        // Define o usuário atual e autentica (ainda usando localStorage para a sessão atual)
+        localStorage.setItem('youshipUser', JSON.stringify({name: name, email: email}));
+        localStorage.setItem('youshipAuth', email);
+        
+        // Redireciona para a página inicial
+        location.href = '../index.html';
+      } catch (error) {
+        console.error('Erro durante o cadastro:', error);
+        alert('Ocorreu um erro ao tentar cadastrar. Por favor, tente novamente.');
+      }
     });
   </script>
 </body>

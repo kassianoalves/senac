@@ -17,29 +17,62 @@
       req.onerror = ()=> rej(req.error||new Error('Cannot open IDB'));
     });
   }
-  function saveUpload(file, meta){
+  async function saveUpload(file, meta) {
     // returns Promise resolving to { id, thumb } where thumb may be a dataURL
     // meta may include: title, channel, owner, category, visibility, channelAvatar
-    return openDB().then(db=> new Promise(async (res,rej)=>{
-      try{
-        const tx = db.transaction(STORE,'readwrite');
-        const store = tx.objectStore(STORE);
-        const id = 'up-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
-        const rec = Object.assign({id, name: file.name, size: file.size, ts: Date.now(), mime: file.type, visibility: 'public', owner: null, channelAvatar: null, category: 'home'}, meta||{});
-        // generate a thumbnail for video files (dataURL) if possible
-        let thumb = null;
-        try{
-          if(file && file.type && file.type.indexOf('video')===0){
+    let thumb = null;
+    try {
+        if (file && file.type && file.type.indexOf('video') === 0) {
             thumb = await generateVideoThumbnail(file);
-            rec.thumbDataUrl = thumb;
-          }
-        }catch(e){ /* ignore thumbnail failures */ }
-        const putReq = store.put(Object.assign(rec, {blob: file}));
-        putReq.onsuccess = ()=>{ res({id, thumb: rec.thumbDataUrl||null}); db.close(); };
-        putReq.onerror = ()=>{ rej(putReq.error); db.close(); };
-      }catch(err){ rej(err); }
-    }));
-  }
+        }
+    } catch (e) {
+        console.warn('Could not generate thumbnail for', file.name, e);
+    }
+
+    const db = await openDB();
+    const id = 'up-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+    const rec = Object.assign({
+        id,
+        name: file.name,
+        size: file.size,
+        ts: Date.now(),
+        mime: file.type,
+        visibility: 'public',
+        owner: null,
+        channelAvatar: null,
+        category: 'home'
+    }, meta || {});
+
+    if (thumb) {
+        rec.thumbDataUrl = thumb;
+    }
+
+    return new Promise((res, rej) => {
+        const tx = db.transaction(STORE, 'readwrite');
+        const store = tx.objectStore(STORE);
+
+        tx.oncomplete = () => {
+            db.close();
+            res({ id, thumb: rec.thumbDataUrl || null });
+        };
+        tx.onerror = (event) => {
+            console.error('Transaction error:', event.target.error);
+            db.close();
+            rej(event.target.error);
+        };
+
+        const request = store.put(Object.assign(rec, { blob: file }));
+
+        request.onsuccess = () => {
+            // The 'put' operation was successful. The transaction will now complete.
+        };
+
+        request.onerror = (event) => {
+            // This error will bubble up to the transaction's error handler.
+            console.error('IDB put() request error:', event.target.error);
+        };
+    });
+}
   
   function getUploadMeta(id){
     return openDB().then(db=> new Promise((res,rej)=>{

@@ -338,11 +338,6 @@
           const result = await YouShipUploads.saveUpload(f, { title: f.name, channel, owner: auth, category, visibility, channelAvatar });
           const id = result && result.id ? result.id : result;
           const thumb = result && result.thumb ? result.thumb : null;
-          // registrar metadados simples em localStorage para que o feed carregue o upload
-          const metaRaw = localStorage.getItem('youshipUploads');
-          const arr = metaRaw ? JSON.parse(metaRaw) : [];
-          arr.unshift({ id, title: f.name, channel, ts: Date.now(), mime: f.type, size: f.size, thumb, category: category, visibility: visibility, owner: auth, channelAvatar: channelAvatar });
-          localStorage.setItem('youshipUploads', JSON.stringify(arr));
           // fechar modal e ir para a página de vídeo
           const modalEl = document.getElementById('createContentModal');
           try{ const modal = bootstrap.Modal.getInstance(modalEl); if(modal) modal.hide(); }catch(e){}

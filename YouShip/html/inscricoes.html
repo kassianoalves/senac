@@ -24,7 +24,16 @@
       if(!auth){ el.innerHTML = '<div class="alert alert-warning">Faça login para ver suas inscrições. <a href="login.html">Entrar</a></div>'; return; }
       const subs = JSON.parse(localStorage.getItem('youshipSubscriptions')||'[]');
       if(subs.length===0) { el.innerHTML = '<div class="small text-muted">Você não está inscrito em canais.</div>'; return; }
-      el.innerHTML = subs.map(s=> `<div class="py-2 border-bottom">${s}</div>`).join('');
+      
+      const profilePic = localStorage.getItem('userProfilePic');
+      const profilePicUrl = profilePic ? profilePic : 'https://via.placeholder.com/150';
+
+      el.innerHTML = subs.map(s=> `
+        <div class="d-flex align-items-center py-2 border-bottom">
+          <img src="${profilePicUrl}" alt="Foto do Perfil" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
+          <a href="channel-view.html?channel=${encodeURIComponent(s)}">${s}</a>
+        </div>
+      `).join('');
     }
     document.addEventListener('DOMContentLoaded', renderSubs);
   </script>
