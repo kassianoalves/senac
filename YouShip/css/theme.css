@@ -1,0 +1,53 @@
+/* theme.css - variáveis e pequenas sobrescritas para YouShip
+   Edite as variáveis :root abaixo ou use a página html/theme-editor.html para editar visualmente.
+
+   Para mudanças profundas no Bootstrap (cores, espaçamentos), é recomendável usar SCSS e recompilar
+   o Bootstrap com suas variáveis. Veja ../THEME.md para instruções de como compilar localmente.
+*/
+:root{
+  --youship-orange: #ff7a00;
+  --youship-dark: #3a3a3a;
+  --youship-bg: #ffffff;
+  --youship-muted: #6c6c6c;
+  --youship-radius: 8px;
+  --youship-brand-font: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Basic component overrides */
+.navbar-youship{
+  background: var(--youship-bg);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.navbar-youship .brand{ font-weight:700; color:var(--youship-dark); font-family:var(--youship-brand-font); }
+.navbar-youship svg rect{ fill: var(--youship-orange) !important; }
+
+.card{ border-radius: var(--youship-radius); }
+.card .thumb{ object-fit:cover; height:180px; }
+
+#bannerArea{ background: linear-gradient(90deg,var(--youship-orange), #ff944d); }
+
+.rounded-circle{ border-radius:50% !important; }
+
+/* small screens adjustments */
+@media(min-width:768px){
+  .card .thumb{ height:160px; }
+}
+
+/* helpers for featured video */
+.youship-featured{ border-radius: var(--youship-radius); overflow:hidden; background:#fff; box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+
+/* override bootstrap primary and buttons lightly using CSS vars */
+.btn-primary{ background: var(--youship-orange); border-color: var(--youship-orange); }
+.btn-primary:hover{ background:#ff8e33; border-color:#ff8e33; }
+
+/* make dropdown avatar small */
+#userMenuButton img{ width:36px; height:36px; object-fit:cover; border-radius:50%; }
+
+/* Footer styles */
+.youship-footer{ background:#fafafa; border-top:1px solid rgba(0,0,0,0.04); padding:24px 0; margin-top:48px; }
+.youship-footer a{ color:var(--youship-dark); }
+
+/* Theme editor preview helpers */
+.theme-swatch{ width:28px; height:20px; display:inline-block; vertical-align:middle; border-radius:4px; border:1px solid rgba(0,0,0,0.06); }
+
+/* allow easy override by adding a user style tag with id youship-theme-vars */

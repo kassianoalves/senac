@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Canal — YouShip</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body data-page="channel-view">
+  <div id="youship-header"></div>
+  <div class="container py-4">
+    <div id="channelHeader" class="mb-4"></div>
+    <div id="channelVideos" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/header.js"></script>
+  <script>
+    (function(){
+      function getParam(name){ const p = new URLSearchParams(location.search); return p.get(name); }
+      const channel = getParam('channel') || '';
+      const auth = localStorage.getItem('youshipAuth');
+      const header = document.getElementById('channelHeader');
+      const videosWrap = document.getElementById('channelVideos');
+      if(!channel){ header.innerHTML = '<div class="alert alert-warning">Canal não especificado.</div>'; return; }
+      // try to find channel record
+      let chRec = null;
+      try{ const chs = JSON.parse(localStorage.getItem('youshipChannels')||'[]'); chRec = chs.find(c=> c.name===channel) || null; }catch(e){}
+      header.innerHTML = `
+        <div class="d-flex align-items-center gap-3">
+          <img src="${(chRec && chRec.avatarDataUrl) || 'https://via.placeholder.com/120'}" class="rounded-circle" width="120" height="120" style="object-fit:cover">
+          <div>
+            <h4 class="mb-1">${channel}</h4>
+            <div class="small text-muted">${(chRec && chRec.description) || ''}</div>
+          </div>
+        </div>
+      `;
+
+      // load cards.json and local uploads, show only public videos of this channel (or private if owner)
+      const inHtmlFolder = location.pathname.indexOf('/html/') !== -1;
+      const assetsPrefix = inHtmlFolder ? '../' : '';
+      fetch(`${assetsPrefix}js/cards.json`).then(r=> r.ok ? r.json() : []).then(cards=>{
+        const liveRaw = localStorage.getItem('liveStreams');
+        const uploadsRaw = localStorage.getItem('youshipUploads');
+        const uploads = uploadsRaw ? JSON.parse(uploadsRaw) : [];
+        const currentAuth = localStorage.getItem('youshipAuth');
+        // map uploads
+        const uploadsMapped = uploads.map(u=> Object.assign({}, u, { thumb: u.thumb || u.thumbDataUrl || 'https://via.placeholder.com/480x270', visibility: u.visibility||'public' }));
+        const visibleUploads = uploadsMapped.filter(u=> u.channel === channel && (u.visibility === 'public' || (u.owner && currentAuth && u.owner === currentAuth)));
+        // cards from cards.json that match channel
+        const cardsArr = Array.isArray(cards) ? cards.filter(c=> c.channel === channel) : [];
+        // combine: uploads first then cards
+        const combined = visibleUploads.concat(cardsArr);
+        if(combined.length===0) videosWrap.innerHTML = '<div class="small text-muted">Este canal não possui vídeos públicos.</div>';
+        else{
+          videosWrap.innerHTML = combined.map(v=> `
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <img src="${v.thumb||'https://via.placeholder.com/480x270'}" class="card-img-top" alt="${v.title||''}">
+                <div class="card-body p-2">
+                  <h6 class="mb-1">${v.title||''}</h6>
+                  <div class="small text-muted">${v.channel||''} • ${v.time||''}</div>
+                </div>
+              </div>
+            </div>
+          `).join('');
+        }
+      }).catch(()=>{ videosWrap.innerHTML = '<div class="alert alert-danger">Erro ao carregar vídeos.</div>'; });
+    })();
+  </script>
+</body>
+</html>

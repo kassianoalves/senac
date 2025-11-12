@@ -31,7 +31,11 @@
       if(fileSrc && !isHls) html.push(`<video id="player" controls class="w-100 rounded" src="${fileSrc}" poster="${v.thumb || ''}"></video>`);
       else if(isHls) html.push(`<video id="player" controls class="w-100 rounded" poster="${v.thumb || ''}"></video>`);
       else html.push(`<img src="${v.thumb || 'https://via.placeholder.com/960x540/ddd/444?text=YouShip'}" class="img-fluid rounded" alt="${v.title}">`);
-      html.push(`<h5 class="mt-2">${v.title}</h5><div class="text-muted">${v.channel || ''} • ${v.viewsText||''}</div>`);
+      // incluir avatar do canal, se existir
+      let channelHtml = '';
+      try{ if(v.channel){ const avatar = v.channelAvatar || ''; if(avatar) channelHtml = `<img src="${avatar}" class="rounded-circle me-2" width="40" height="40" style="object-fit:cover">`; channelHtml += `<strong>${v.channel}</strong>`; } }catch(e){}
+      html.push(`<div class="d-flex align-items-center gap-2 mt-2">${channelHtml}<div class="text-muted small">${v.viewsText||''}</div></div>`);
+    if(v.description || v.desc) html.push(`<p class="mt-2">${v.description||v.desc}</p>`);
       videoArea.innerHTML = html.join('\n');
       if(isHls){ const player = document.getElementById('player'); if(Hls.isSupported()){ const hls = new Hls(); hls.loadSource(fileSrc); hls.attachMedia(player); }else if(player.canPlayType('application/vnd.apple.mpegurl')){ player.src = fileSrc; }else{ const note = document.createElement('div'); note.className='alert alert-warning mt-2'; note.textContent='HLS não é suportado neste navegador.'; videoArea.appendChild(note); } }
     }
@@ -53,12 +57,18 @@
             const uploads = uploadsRaw ? JSON.parse(uploadsRaw) : [];
             const meta = uploads.find(u=> String(u.id) === String(id));
             if(meta){
+              // respeitar visibilidade
+              const currentAuth = localStorage.getItem('youshipAuth');
+              if(meta.visibility === 'private' && (!meta.owner || meta.owner !== currentAuth)){
+                videoArea.innerHTML = '<div class="alert alert-warning">Este vídeo é privado.</div>';
+                return;
+              }
               // obter blob do IndexedDB via YouShipUploads
               if(window.YouShipUploads && YouShipUploads.getUploadBlob){
                 YouShipUploads.getUploadBlob(meta.id).then(blob=>{
                   if(!blob){ videoArea.innerHTML = '<div class="alert alert-danger">Arquivo enviado não encontrado.</div>'; return; }
                   const url = URL.createObjectURL(blob);
-                  const vobj = { title: meta.title, channel: meta.channel, viewsText: '', thumb: '' };
+                  const vobj = { title: meta.title, channel: meta.channel, viewsText: '', thumb: meta.thumb || '', channelAvatar: meta.channelAvatar||null };
                   renderVideoElement(url, vobj);
                   try{ const key = 'youshipHistory'; const raw = localStorage.getItem(key); const arr = raw?JSON.parse(raw):[]; arr.unshift(Object.assign({}, vobj, {viewedAt: Date.now()})); localStorage.setItem(key, JSON.stringify(arr.slice(0,200))); }catch(e){}
                 }).catch(err=>{ console.error(err); videoArea.innerHTML = '<div class="alert alert-danger">Erro ao recuperar arquivo enviado.</div>'; });

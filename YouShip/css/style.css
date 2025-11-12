@@ -14,19 +14,19 @@ body {
 
 /* Topbar */
 .navbar-youship {
-    background: linear-gradient(90deg, #fff, #fff);
+    background: linear-gradient(90deg, #f5f3f3, #fff);
     border-bottom: 1px solid #e6e6e6;
 }
 
 .brand {
     color: var(--youship-orange);
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.55rem;
 }
 
 .btn-youship {
     background: var(--youship-orange);
-    color: #fff;
+    color: #ffffff;
     border: 0;
 }
 

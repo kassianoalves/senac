@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Canal — YouShip</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+</head>
+<body data-page="channel">
+  <div id="youship-header"></div>
+
+  <div class="container py-4">
+    <div id="channelArea"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/uploads.js"></script>
+  <script src="../js/header.js"></script>
+  <script>
+    // página de criar/editar canal
+    const area = document.getElementById('channelArea');
+    const auth = localStorage.getItem('youshipAuth');
+    if(!auth){
+      // redirecionar para login
+      const inHtml = location.pathname.indexOf('/html/') !== -1;
+      const loginPath = inHtml ? 'login.html' : 'html/login.html';
+      const registerPath = inHtml ? 'cadastro.html' : 'html/cadastro.html';
+      const go = confirm('Você precisa estar logado para criar um canal. Entrar agora? (OK = Entrar / Cancel = Criar conta)');
+      if(go) location.href = loginPath; else location.href = registerPath;
+    }else{
+      // carregar dados do usuário e canal
+      const userRaw = localStorage.getItem('youshipUser');
+      let user = {};
+      try{ user = userRaw ? JSON.parse(userRaw) : {}; }catch(e){}
+      const channel = user.channel || { name: user.name || auth, description: '', avatarDataUrl: '' };
+
+      area.innerHTML = `
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card p-3 text-center">
+              <div id="avatarWrap" class="mb-3 text-center">
+                <canvas id="avatarCanvas" width="160" height="160" class="rounded-circle" style="border-radius:50%;background:#f2f2f2;display:block;margin:0 auto"></canvas>
+                <img id="channelAvatar" src="${channel.avatarDataUrl || 'https://via.placeholder.com/160?text=Canal'}" class="rounded-circle d-none" width="160" height="160" alt="Avatar">
+              </div>
+              <input id="avatarInput" type="file" accept="image/*" class="form-control form-control-sm mb-2" />
+              <div class="d-flex gap-2 align-items-center mb-2">
+                <label class="form-label mb-0 small">Zoom</label>
+                <input id="avatarZoom" type="range" min="1" max="3" step="0.01" value="1" class="form-range" style="flex:1" />
+              </div>
+              <div class="mt-2 small text-muted">Avatar do canal (aparecerá no cabeçalho e na listagem). Use o controle de zoom para ajustar o recorte central.</div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card p-3">
+              <div class="mb-3">
+                <label class="form-label">Nome do canal</label>
+                <input id="channelName" class="form-control" value="${channel.name || ''}" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Descrição</label>
+                <textarea id="channelDesc" class="form-control" rows="4">${channel.description || ''}</textarea>
+              </div>
+              <div class="d-flex gap-2">
+                <button id="saveChannelBtn" class="btn btn-primary">Salvar canal</button>
+                <a href="perfil.html" class="btn btn-outline-secondary">Voltar ao perfil</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // handlers - crop/zoom preview on canvas
+      const avatarInput = document.getElementById('avatarInput');
+      const avatarImg = document.getElementById('channelAvatar');
+      const avatarCanvas = document.getElementById('avatarCanvas');
+      const avatarZoom = document.getElementById('avatarZoom');
+      const aCtx = avatarCanvas.getContext('2d');
+      let srcImage = null;
+      function renderAvatarPreview(){
+        try{
+          const w = avatarCanvas.width; const h = avatarCanvas.height;
+          aCtx.clearRect(0,0,w,h);
+          if(!srcImage) return;
+          const zoom = parseFloat(avatarZoom.value || 1);
+          // draw centered crop with zoom
+          const srcW = srcImage.naturalWidth;
+          const srcH = srcImage.naturalHeight;
+          // compute crop size on source
+          const cropW = srcW / zoom;
+          const cropH = srcH / zoom;
+          const sx = Math.max(0, (srcW - cropW)/2);
+          const sy = Math.max(0, (srcH - cropH)/2);
+          aCtx.drawImage(srcImage, sx, sy, cropW, cropH, 0, 0, w, h);
+        }catch(e){ console.warn(e); }
+      }
+      avatarInput.addEventListener('change', (e)=>{
+        const f = e.target.files && e.target.files[0];
+        if(!f) return;
+        const reader = new FileReader();
+        reader.onload = function(){
+          avatarImg.src = reader.result; avatarImg.dataset.url = reader.result;
+          // load into hidden img to use naturalWidth/Height
+          srcImage = new Image();
+          srcImage.onload = function(){ renderAvatarPreview(); };
+          srcImage.src = reader.result;
+        };
+        reader.readAsDataURL(f);
+      });
+      avatarZoom.addEventListener('input', ()=> renderAvatarPreview());
+
+      // se já existir avatar salvo, inicializar preview
+      try{
+        if(channel.avatarDataUrl){
+          avatarImg.src = channel.avatarDataUrl;
+          avatarImg.dataset.url = channel.avatarDataUrl;
+          srcImage = new Image();
+          srcImage.onload = function(){ renderAvatarPreview(); };
+          srcImage.src = channel.avatarDataUrl;
+        }
+      }catch(e){/* ignore */}
+
+      document.getElementById('saveChannelBtn').addEventListener('click', ()=>{
+        const name = document.getElementById('channelName').value.trim();
+        const desc = document.getElementById('channelDesc').value.trim();
+        // generate cropped avatarDataUrl from canvas if image present
+        let avatarDataUrl = avatarImg.dataset && avatarImg.dataset.url ? avatarImg.dataset.url : (channel.avatarDataUrl||'');
+        try{
+          if(srcImage){ avatarDataUrl = avatarCanvas.toDataURL('image/jpeg',0.9); }
+        }catch(e){ /* ignore, fallback to existing */ }
+        // atualizar youshipUser
+        try{
+          let userObj = {};
+          try{ userObj = userRaw ? JSON.parse(userRaw) : {}; }catch(e){}
+          userObj.channel = { name, description: desc, avatarDataUrl };
+          if(!userObj.name) userObj.name = name;
+          localStorage.setItem('youshipUser', JSON.stringify(userObj));
+          // also register channel globally for sidebar lookup
+          try{
+            const listRaw = localStorage.getItem('youshipChannels');
+            const list = listRaw ? JSON.parse(listRaw) : [];
+            const idx = list.findIndex(c=> c.name === name);
+            const chRec = { name, description: desc, avatarDataUrl };
+            if(idx === -1) list.push(chRec); else list[idx] = chRec;
+            localStorage.setItem('youshipChannels', JSON.stringify(list));
+          }catch(e){/* ignore */}
+          // marcar auth com nome se não houver
+          if(!localStorage.getItem('youshipAuth')) localStorage.setItem('youshipAuth', name);
+          alert('Canal salvo com sucesso.');
+          // atualizar header (listeners no header observam storage)
+          setTimeout(()=> location.href = 'perfil.html', 300);
+        }catch(e){ console.error(e); alert('Erro ao salvar canal.'); }
+      });
+    }
+  </script>
+</body>
+</html>

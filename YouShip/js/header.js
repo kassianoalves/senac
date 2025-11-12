@@ -33,7 +33,7 @@
   <a class="navbar-brand d-flex align-items-center gap-2" href="${homeLink}">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
             <rect width="24" height="24" rx="4" fill="var(--youship-orange)" />
-            <path d="M9 8l6 4-6 4V8z" fill="#fff" />
+            <path d="M9 8l6 4-6 4V8z" fill="#ffffffff" />
           </svg>
           <span class="brand">YouShip</span>
         </a>
@@ -102,6 +102,19 @@
         </div>
         <div class="modal-body">
           <div class="d-grid gap-2">
+            <div class="d-flex gap-2 align-items-center mb-2">
+              <select id="uploadCategorySelect" class="form-select form-select-sm">
+                <option value="home">Início</option>
+                <option value="ao-vivo">Ao Vivo</option>
+                <option value="louvor">Louvor</option>
+                <option value="podcast">PodCast</option>
+                <option value="teatro">Teatro</option>
+              </select>
+              <select id="uploadVisibilitySelect" class="form-select form-select-sm" style="width:170px">
+                <option value="public">Público</option>
+                <option value="private">Privado (somente você)</option>
+              </select>
+            </div>
             <button id="uploadVideoBtn" class="btn btn-outline-primary">Enviar vídeo do computador</button>
             <button id="goTransmitBtn" class="btn btn-outline-secondary">Transmitir ao vivo</button>
             <button id="createChannelBtn" class="btn btn-outline-warning">Criar canal</button>
@@ -114,6 +127,51 @@
   document.body.insertAdjacentHTML('beforeend', modalHtml);
 
   document.body.insertBefore(container, document.body.firstChild);
+
+  // aplicar configurações globais de js/config.js quando disponível
+  try{
+    const applyCfg = ()=>{
+      try{
+        if(window.YouShipConfig){
+          const cfg = window.YouShipConfig;
+          if(cfg.siteTitle){ const brandEl = document.querySelector('#youship-header .brand'); if(brandEl) brandEl.textContent = cfg.siteTitle; }
+          if(cfg.bannerHtml){ const b = document.getElementById('bannerArea'); if(b) b.innerHTML = cfg.bannerHtml; }
+          if(cfg.brandSVG){ const brandWrap = document.querySelector('#youship-header .navbar-brand'); if(brandWrap){ brandWrap.innerHTML = cfg.brandSVG + '<span class="brand">' + (cfg.siteTitle||'YouShip') + '</span>'; } }
+        }
+      }catch(e){/* ignore */}
+    };
+    if(window.YouShipConfig) applyCfg();
+    else{
+      // tentar carregar js/config.js automaticamente
+      const cfgPath = inHtml ? '../js/config.js' : 'js/config.js';
+      const s = document.createElement('script'); s.src = cfgPath; s.onload = ()=> setTimeout(applyCfg, 10); s.onerror = ()=>{/* no config available */}; document.head.appendChild(s);
+    }
+  }catch(e){/* ignore config errors */}
+
+  // aplicar tema salvo no localStorage (youshipTheme) para sobresscrever variáveis CSS
+  try{
+    const themeRaw = localStorage.getItem('youshipTheme');
+    if(themeRaw){
+      const th = JSON.parse(themeRaw);
+      const root = document.documentElement.style;
+      if(th.main) root.setProperty('--youship-orange', th.main);
+      if(th.dark) root.setProperty('--youship-dark', th.dark);
+      if(th.bg) root.setProperty('--youship-bg', th.bg);
+      if(th.radius) root.setProperty('--youship-radius', th.radius + 'px');
+    }
+  }catch(e){/* ignore theme errors */}
+
+  // injetar footer global (tenta carregar include local)
+  try{
+    const footerPath = inHtml ? '../html/includes/footer.html' : 'html/includes/footer.html';
+    fetch(footerPath).then(r=> r.ok ? r.text() : Promise.reject()).then(html=>{
+      try{ const div = document.createElement('div'); div.innerHTML = html; document.body.appendChild(div.firstElementChild); }catch(e){}
+    }).catch(()=>{
+      // fallback em linha se include não existir
+      const fallback = document.createElement('div'); fallback.className = 'youship-footer'; fallback.innerHTML = '<div class="container"><div class="row"><div class="col">YouShip</div></div></div>';
+      document.body.appendChild(fallback);
+    });
+  }catch(e){/* ignore footer injection */}
 
   // Gerenciar menu do usuário de forma simples (localStorage: youshipAuth, youshipUser)
   function renderUserMenu(){
@@ -133,22 +191,49 @@
       menu.appendChild(li1);
       menu.appendChild(li2);
     }else{
-      // logado: mostrar perfil e sair
+      // logado: mostrar perfil, canal, meus vídeos, transmitir e sair
       const userRaw = localStorage.getItem('youshipUser');
       let name = auth;
       try{ const u = JSON.parse(userRaw); if(u && u.name) name = u.name; }catch(e){}
+
       const li1 = document.createElement('li');
       li1.innerHTML = `<a class="dropdown-item" href="${perfilHref}">Olá, ${name}</a>`;
+      const liChannel = document.createElement('li');
+      const channelHref = inHtml ? 'channel.html' : 'html/channel.html';
+      liChannel.innerHTML = `<a class="dropdown-item" href="${channelHref}">Meu canal</a>`;
+      const liMyVideos = document.createElement('li');
+      const myVideosHref = inHtml ? 'meus-videos.html' : 'html/meus-videos.html';
+      liMyVideos.innerHTML = `<a class="dropdown-item" href="${myVideosHref}">Meus vídeos</a>`;
+      const liTransmit = document.createElement('li');
+      const transmitCfg = inHtml ? 'transmit-config.html' : 'html/transmit-config.html';
+      liTransmit.innerHTML = `<a class="dropdown-item" href="${transmitCfg}">Transmitir (Configurar)</a>`;
       const li2 = document.createElement('li');
       li2.innerHTML = `<a class="dropdown-item" href="#" id="logoutBtn">Sair</a>`;
+
       menu.appendChild(li1);
+      menu.appendChild(liChannel);
+      menu.appendChild(liMyVideos);
+      menu.appendChild(liTransmit);
+      const divider = document.createElement('li'); divider.innerHTML = '<hr class="dropdown-divider">'; menu.appendChild(divider);
       menu.appendChild(li2);
+
       // logout
       setTimeout(()=>{
         const lb = document.getElementById('logoutBtn');
         if(lb) lb.addEventListener('click', (e)=>{ e.preventDefault(); localStorage.removeItem('youshipAuth'); location.reload(); });
       }, 50);
     }
+    // ajustar o botão do menu (avatar) no topo sempre que renderizar
+    try{
+      const btn = document.getElementById('userMenuButton');
+      if(btn){
+        const userRaw = localStorage.getItem('youshipUser');
+        let avatar = null;
+        try{ const u = userRaw?JSON.parse(userRaw):null; if(u && u.channel && u.channel.avatarDataUrl) avatar = u.channel.avatarDataUrl; else if(u && u.avatarDataUrl) avatar = u.avatarDataUrl; }catch(e){}
+        if(avatar){ btn.innerHTML = `<img src="${avatar}" alt="avatar" class="rounded-circle" style="width:36px;height:36px;object-fit:cover">`; }
+        else { btn.innerHTML = '<i class="bi bi-person-circle" style="font-size:1.35rem"></i>'; }
+      }
+    }catch(e){/* ignore */}
   }
 
   // render no load
@@ -187,7 +272,15 @@
         }
         if(!auth){ wrap.innerHTML = ''; return; }
         if(!subs || subs.length===0){ wrap.innerHTML = '<div class="small text-muted">Nenhuma inscrição.</div>'; return; }
-        wrap.innerHTML = '<h6 class="mt-2">Inscrições</h6>' + subs.map(s=>`<div class="d-flex align-items-center gap-2 py-1"><img src="https://via.placeholder.com/32" class="rounded-circle" alt=""><div class="small">${s}</div></div>`).join('');
+        // tentar buscar avatar do canal em youshipChannels
+        const channelsRaw = localStorage.getItem('youshipChannels');
+        const channels = channelsRaw ? JSON.parse(channelsRaw) : [];
+        wrap.innerHTML = '<h6 class="mt-2">Inscrições</h6>' + subs.map(s=>{
+          const ch = (channels.find(c=>c.name===s) || {});
+          const avatar = ch.avatarDataUrl || null;
+          const href = inHtml ? `channel-view.html?channel=${encodeURIComponent(s)}` : `html/channel-view.html?channel=${encodeURIComponent(s)}`;
+          return `<a class="d-flex align-items-center gap-2 py-1 text-decoration-none" href="${href}"><img src="${avatar||'https://via.placeholder.com/32'}" class="rounded-circle" width="32" height="32" alt=""><div class="small">${s}</div></a>`;
+        }).join('');
       });
     }catch(e){ /* ignore */ }
   }
@@ -231,12 +324,20 @@
           // salvar blob no IndexedDB
           const userRaw = localStorage.getItem('youshipUser');
           let channel = auth;
-          try{ const u = JSON.parse(userRaw); if(u && u.name) channel = u.name; }catch(e){}
-          const id = await YouShipUploads.saveUpload(f, { title: f.name, channel });
+          let channelAvatar = null;
+          try{ const u = JSON.parse(userRaw); if(u && u.channel && u.channel.name) channel = u.channel.name; if(u && u.channel && u.channel.avatarDataUrl) channelAvatar = u.channel.avatarDataUrl; else if(u && u.avatarDataUrl) channelAvatar = u.avatarDataUrl; }catch(e){}
+          // ler categoria/visibilidade selecionadas no modal
+          const catEl = document.getElementById('uploadCategorySelect');
+          const visEl = document.getElementById('uploadVisibilitySelect');
+          const category = catEl ? catEl.value : 'home';
+          const visibility = visEl ? visEl.value : 'public';
+          const result = await YouShipUploads.saveUpload(f, { title: f.name, channel, owner: auth, category, visibility, channelAvatar });
+          const id = result && result.id ? result.id : result;
+          const thumb = result && result.thumb ? result.thumb : null;
           // registrar metadados simples em localStorage para que o feed carregue o upload
           const metaRaw = localStorage.getItem('youshipUploads');
           const arr = metaRaw ? JSON.parse(metaRaw) : [];
-          arr.unshift({ id, title: f.name, channel, ts: Date.now(), mime: f.type, size: f.size });
+          arr.unshift({ id, title: f.name, channel, ts: Date.now(), mime: f.type, size: f.size, thumb, category: category, visibility: visibility, owner: auth, channelAvatar: channelAvatar });
           localStorage.setItem('youshipUploads', JSON.stringify(arr));
           // fechar modal e ir para a página de vídeo
           const modalEl = document.getElementById('createContentModal');
@@ -250,6 +351,108 @@
       });
     }
   }catch(e){ console.warn('Upload hookup failed', e); }
+  // garantir que os botões do modal apontem para as novas páginas (e exijam login)
+  try{
+    const modalGoTransmit = document.getElementById('goTransmitBtn');
+    const modalCreateChannel = document.getElementById('createChannelBtn');
+    const fileInput = document.getElementById('fileUploadInput');
+    if(modalGoTransmit){
+      modalGoTransmit.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const authNow = localStorage.getItem('youshipAuth');
+        if(!authNow){ const go = confirm('Você precisa entrar para transmitir. Deseja entrar agora? (OK = Entrar / Cancel = Criar conta)'); if(go) window.location.href = loginLink; else window.location.href = registerLink; return; }
+        const target = inHtml ? 'transmit-config.html' : 'html/transmit-config.html';
+        // fechar modal
+        try{ const modalEl = document.getElementById('createContentModal'); const modal = bootstrap.Modal.getInstance(modalEl); if(modal) modal.hide(); }catch(e){}
+        window.location.href = target;
+      });
+    }
+    if(modalCreateChannel){
+      modalCreateChannel.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const authNow = localStorage.getItem('youshipAuth');
+        if(!authNow){ const go = confirm('Você precisa entrar para criar/acessar canal. Deseja entrar agora? (OK = Entrar / Cancel = Criar conta)'); if(go) window.location.href = loginLink; else window.location.href = registerLink; return; }
+        const target = inHtml ? 'channel.html' : 'html/channel.html';
+        try{ const modalEl = document.getElementById('createContentModal'); const modal = bootstrap.Modal.getInstance(modalEl); if(modal) modal.hide(); }catch(e){}
+        window.location.href = target;
+      });
+    }
+    // also ensure upload button in modal opens fileInput (handled earlier) — keep existing behavior
+  }catch(e){ /* ignore */ }
+  
+  // criar um dropdown simples no ícone de criar conteúdo (para aparecer como no menu de perfil)
+  function renderCreateDropdown(){
+    const existing = document.getElementById('createContentBtn');
+    if(!existing) return;
+    // se já substituído, não duplicar
+    if(existing.dataset.dropdown === '1') return;
+    // construir elemento dropdown
+    const wrapper = document.createElement('div');
+    wrapper.className = 'dropdown';
+    const btn = document.createElement('button');
+    btn.id = 'createContentBtnDropdown';
+    btn.className = 'btn btn-link nav-link dropdown-toggle';
+    btn.type = 'button';
+    btn.setAttribute('data-bs-toggle','dropdown');
+    btn.setAttribute('aria-expanded','false');
+    btn.title = 'Criar conteúdo';
+    btn.innerHTML = '<i class="bi bi-camera-reels" style="font-size:1.2rem; color:var(--youship-orange)"></i>';
+    const menu = document.createElement('ul');
+    menu.className = 'dropdown-menu dropdown-menu-end';
+    menu.id = 'createContentDropdownMenu';
+
+    // determinar labels e links de acordo com auth/channel
+    const auth = localStorage.getItem('youshipAuth');
+    let channelLabel = 'Criar canal';
+    try{ const u = JSON.parse(localStorage.getItem('youshipUser')||'{}'); if(u && u.channel && u.channel.name) channelLabel = 'Acessar canal'; }catch(e){}
+
+    const liUpload = document.createElement('li'); liUpload.innerHTML = `<a class="dropdown-item" href="#" id="ddUpload">Enviar vídeo</a>`;
+    const liTransmit = document.createElement('li'); liTransmit.innerHTML = `<a class="dropdown-item" href="#" id="ddTransmit">Transmitir ao vivo</a>`;
+    const liChannel = document.createElement('li'); liChannel.innerHTML = `<a class="dropdown-item" href="#" id="ddChannel">${channelLabel}</a>`;
+
+    menu.appendChild(liUpload); menu.appendChild(liTransmit); menu.appendChild(liChannel);
+    wrapper.appendChild(btn); wrapper.appendChild(menu);
+
+    // substituir o link original pelo dropdown
+    existing.parentNode.replaceChild(wrapper, existing);
+    wrapper.dataset.replaced = '1';
+
+    // handlers
+    const ddUpload = document.getElementById('ddUpload');
+    const ddTransmit = document.getElementById('ddTransmit');
+    const ddChannel = document.getElementById('ddChannel');
+    const fileInput = document.getElementById('fileUploadInput');
+
+    ddUpload.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const authNow = localStorage.getItem('youshipAuth');
+      if(!authNow){ const go = confirm('Você precisa entrar para enviar vídeos. Deseja entrar agora? (OK = Entrar / Cancel = Criar conta)'); if(go) window.location.href = loginLink; else window.location.href = registerLink; return; }
+      // trigger file input (ensure uploads helper loaded)
+      if(!window.YouShipUploads){
+        const script = document.createElement('script'); script.src = inHtml ? '../js/uploads.js' : 'js/uploads.js'; script.onload = ()=> fileInput.click(); script.onerror = ()=> alert('Não foi possível carregar o módulo de upload.'); document.head.appendChild(script);
+      }else fileInput.click();
+    });
+
+    ddTransmit.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const authNow = localStorage.getItem('youshipAuth');
+      if(!authNow){ const go = confirm('Você precisa entrar para transmitir. Deseja entrar agora? (OK = Entrar / Cancel = Criar conta)'); if(go) window.location.href = loginLink; else window.location.href = registerLink; return; }
+      // abrir página de configuração de transmissão
+      const target = inHtml ? 'transmit-config.html' : 'html/transmit-config.html';
+      window.location.href = target;
+    });
+
+    ddChannel.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const authNow = localStorage.getItem('youshipAuth');
+      if(!authNow){ const go = confirm('Você precisa entrar para criar/acessar canal. Deseja entrar agora? (OK = Entrar / Cancel = Criar conta)'); if(go) window.location.href = loginLink; else window.location.href = registerLink; return; }
+      const target = inHtml ? 'channel.html' : 'html/channel.html';
+      window.location.href = target;
+    });
+  }
+  // renderizar dropdown após load
+  setTimeout(renderCreateDropdown, 50);
+  window.addEventListener('storage', (e)=>{ if(e.key==='youshipUser' || e.key==='youshipAuth') setTimeout(renderCreateDropdown, 50); });
   // marcar item ativo na sidebar/offcanvas com base em body[data-page] ou pathname
   function markActiveLinks(){
     const page = document.body && document.body.dataset && document.body.dataset.page ? document.body.dataset.page : '';

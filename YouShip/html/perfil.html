@@ -18,9 +18,11 @@
           <a class="nav-link" href="ao-vivo.html"><i class="bi bi-broadcast-pin me-2"></i>Ao Vivo</a>
           <a class="nav-link" href="louvor.html"><i class="bi bi-music-note-list me-2"></i>Louvor</a>
           <a class="nav-link" href="podcast.html"><i class="bi bi-mic-fill me-2"></i>PodCast</a>
+          <a class="nav-link" href="teatro.html"><i class="bi bi-easel me-2"></i>Teatro</a>
           <hr>
           <a class="nav-link active" href="perfil.html"><i class="bi bi-person-circle me-2"></i>Perfil</a>
-          <a class="nav-link" href="transmitir.html"><i class="bi bi-camera-reels me-2"></i>Transmitir</a>
+          <a class="nav-link" href="transmit-config.html"><i class="bi bi-camera-reels me-2"></i>Transmitir (Config)</a>
+          <a class="nav-link" href="meus-videos.html"><i class="bi bi-film me-2"></i>Meus vídeos</a>
         </nav>
       </aside>
 
@@ -30,6 +32,9 @@
         <hr>
         <h5>Inscrições</h5>
         <div id="subsList" class="mt-2"></div>
+        <hr>
+        <h5>Personalizar tema</h5>
+        <div class="mt-2"><a class="btn btn-sm btn-outline-secondary" href="theme-editor.html">Abrir editor de tema</a></div>
       </main>
     </div>
   </div>
@@ -48,8 +53,11 @@
       profileArea.innerHTML = `<p><strong>${user.name}</strong><br><small>${user.email}</small></p><a class="btn btn-sm btn-outline-primary" href="configurar.html">Editar perfil</a>`;
       const subs = JSON.parse(localStorage.getItem('youshipSubscriptions')||'[]');
       if(subs.length===0) subsArea.innerHTML = '<div class="small text-muted">Você não está inscrito em canais.</div>';
-      else subsArea.innerHTML = subs.map(s=>`<div class="d-flex justify-content-between align-items-center py-1"><div>${s}</div><div><button class="btn btn-sm btn-outline-danger btn-unsub" data-channel="${s}">Cancelar</button></div></div>`).join('');
-      document.querySelectorAll('.btn-unsub').forEach(b=> b.addEventListener('click', (e)=>{ const ch = b.dataset.channel; const arr = JSON.parse(localStorage.getItem('youshipSubscriptions')||'[]'); const idx = arr.indexOf(ch); if(idx!==-1){ arr.splice(idx,1); localStorage.setItem('youshipSubscriptions', JSON.stringify(arr)); renderProfile(); } }));
+      else {
+        // mostrar como lista clicável para abrir o canal
+        subsArea.innerHTML = subs.map(s=>`<div class="d-flex justify-content-between align-items-center py-1"><div><a href="channel-view.html?channel=${encodeURIComponent(s)}">${s}</a></div><div><button class="btn btn-sm btn-outline-danger btn-unsub" data-channel="${s}">Cancelar</button></div></div>`).join('');
+        document.querySelectorAll('.btn-unsub').forEach(b=> b.addEventListener('click', (e)=>{ const ch = b.dataset.channel; const arr = JSON.parse(localStorage.getItem('youshipSubscriptions')||'[]'); const idx = arr.indexOf(ch); if(idx!==-1){ arr.splice(idx,1); localStorage.setItem('youshipSubscriptions', JSON.stringify(arr)); renderProfile(); } }));
+      }
     }
     document.addEventListener('DOMContentLoaded', renderProfile);
   </script>
