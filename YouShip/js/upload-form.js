@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Check login status
     const auth = localStorage.getItem('youshipAuth');
-    if (!auth) {
+    const user = JSON.parse(localStorage.getItem('youshipUser') || '{}');
+    if (!auth || !user.email) {
         alert('Você precisa estar logado para fazer upload de vídeos.');
         window.location.href = 'login.html';
         return;
@@ -77,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             category: videoCategorySelect.value,
             visibility: videoVisibilitySelect.value,
             // Add other metadata as needed, e.g., owner, channel
-            owner: auth, // Use actual auth
+            owner: user.name || user.email,
             channel: 'My Channel', // Placeholder, update with user channel
             channelAvatar: 'https://via.placeholder.com/150', // Placeholder
         };

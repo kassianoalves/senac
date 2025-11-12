@@ -1,5 +1,5 @@
 - [x] Modify html/upload.html to add visibility select field
 - [x] Update js/upload-form.js to check login, pre-fill user data, handle visibility
 - [x] Change js/header.js modal upload button to redirect to upload.html
-- [x] Test upload flow and fix any issues (added video type validation)
-- [x] Change upload success redirect to channel page instead of home
+- [x] Fix video not found issue when selecting file
+- [x] Ensure user profile picture appears in profile and video cards

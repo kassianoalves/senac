@@ -20,6 +20,8 @@
   const perfilLink = inHtml ? 'perfil.html' : 'html/perfil.html';
   const loginLink = inHtml ? 'login.html' : 'html/login.html';
   const registerLink = inHtml ? 'cadastro.html' : 'html/cadastro.html';
+  // hide search on upload page
+  const showSearch = !location.pathname.includes('upload.html');
 
   const container = document.createElement('div');
   container.id = 'youship-header';
@@ -43,10 +45,10 @@
         </button>
 
         <div class="collapse navbar-collapse" id="topbar">
-          <form class="d-flex mx-auto w-50" role="search">
-            <input class="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+          ${showSearch ? `<form id="searchForm" class="d-flex mx-auto w-50" role="search">
+            <input id="searchInput" class="form-control me-2" type="search" placeholder="Pesquisar vídeos, canais..." aria-label="Pesquisar">
             <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
-          </form>
+          </form>` : ''}
 
           <ul class="navbar-nav ms-auto d-flex align-items-center gap-2">
             <li class="nav-item">
@@ -203,10 +205,7 @@
       liChannel.innerHTML = `<a class="dropdown-item" href="${channelHref}">Meu canal</a>`;
       const liMyVideos = document.createElement('li');
       const myVideosHref = inHtml ? 'meus-videos.html' : 'html/meus-videos.html';
-      liMyVideos.innerHTML = `<a class="dropdown-item" href="${myVideosHref}">Meus vídeos</a>`;
-      const liMyClipes = document.createElement('li');
-      const myClipesHref = inHtml ? 'meus-clipes.html' : 'html/meus-clipes.html';
-      liMyClipes.innerHTML = `<a class="dropdown-item" href="${myClipesHref}">Meus clipes</a>`;
+      liMyVideos.innerHTML = `<a class="dropdown-item" href="${myVideosHref}">Vídeos enviados</a>`;
       const liTransmit = document.createElement('li');
       const transmitCfg = inHtml ? 'transmit-config.html' : 'html/transmit-config.html';
       liTransmit.innerHTML = `<a class="dropdown-item" href="${transmitCfg}">Transmitir (Configurar)</a>`;
@@ -216,7 +215,6 @@
       menu.appendChild(li1);
       menu.appendChild(liChannel);
       menu.appendChild(liMyVideos);
-      menu.appendChild(liMyClipes);
       menu.appendChild(liTransmit);
       const divider = document.createElement('li'); divider.innerHTML = '<hr class="dropdown-divider">'; menu.appendChild(divider);
       menu.appendChild(li2);
@@ -405,10 +403,9 @@
       e.preventDefault();
       const authNow = localStorage.getItem('youshipAuth');
       if(!authNow){ const go = confirm('Você precisa entrar para enviar vídeos. Deseja entrar agora? (OK = Entrar / Cancel = Criar conta)'); if(go) window.location.href = loginLink; else window.location.href = registerLink; return; }
-      // trigger file input (ensure uploads helper loaded)
-      if(!window.YouShipUploads){
-        const script = document.createElement('script'); script.src = inHtml ? '../js/uploads.js' : 'js/uploads.js'; script.onload = ()=> fileInput.click(); script.onerror = ()=> alert('Não foi possível carregar o módulo de upload.'); document.head.appendChild(script);
-      }else fileInput.click();
+      // redirect to upload page instead of triggering file input
+      const uploadTarget = inHtml ? 'upload.html' : 'html/upload.html';
+      window.location.href = uploadTarget;
     });
 
     ddTransmit.addEventListener('click', (e)=>{

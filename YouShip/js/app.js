@@ -101,7 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // detectar categoria da página (index -> home, ao-vivo, louvor, podcast etc.)
     const pageCategory = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'home';
     const filterSelect = document.getElementById('filterSelect');
+    const searchInput = document.getElementById('searchInput');
     let filteredVideos = [];
+    let searchQuery = ''; // termo de pesquisa
 
     // tentar carregar js/cards.json via fetch (usa prefix quando necessário)
     fetch(`${assetsPrefix}js/cards.json`).then(r => {
@@ -193,6 +195,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // filtrar por página
             if(pageCategory && pageCategory !== 'home'){
                 filteredVideos = filteredVideos.filter(v => v.category === pageCategory);
+        }
+        // aplicar pesquisa se houver
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase();
+            filteredVideos = filteredVideos.filter(v =>
+                (v.title && v.title.toLowerCase().includes(query)) ||
+                (v.channel && v.channel.toLowerCase().includes(query))
+            );
         }
         // aplicar seleção
         const sel = filterSelect ? filterSelect.value : 'relevant';
@@ -348,6 +358,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // reagir a mudanças de filtro
     if (filterSelect) {
         filterSelect.addEventListener('change', () => {
+            applyFilter();
+            if (observer) observer.disconnect();
+            // reset
+            container.innerHTML = '';
+            page = 0;
+            renderNextPage();
+            // reattach observer
+            if (observer && loadMoreBtn) observer.observe(loadMoreBtn);
+        });
+    }
+
+    // reagir a mudanças de pesquisa
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
             applyFilter();
             if (observer) observer.disconnect();
             // reset
