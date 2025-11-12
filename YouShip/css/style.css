@@ -116,3 +116,19 @@ body {
     50%{ transform: translateY(-4px) scale(1.08); opacity:0.95 }
     100%{ transform: translateY(0) scale(1.2); opacity:1 }
 }
+
+.like-button.liked i {
+    color: var(--youship-orange);
+}
+
+.btn-outline-primary.subscribed {
+    background-color: var(--youship-orange);
+    border-color: var(--youship-orange);
+    color: white;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ff8f2b;
+    border-color: #ff8f2b;
+    color: white;
+}

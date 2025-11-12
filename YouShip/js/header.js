@@ -204,6 +204,9 @@
       const liMyVideos = document.createElement('li');
       const myVideosHref = inHtml ? 'meus-videos.html' : 'html/meus-videos.html';
       liMyVideos.innerHTML = `<a class="dropdown-item" href="${myVideosHref}">Meus vídeos</a>`;
+      const liMyClipes = document.createElement('li');
+      const myClipesHref = inHtml ? 'meus-clipes.html' : 'html/meus-clipes.html';
+      liMyClipes.innerHTML = `<a class="dropdown-item" href="${myClipesHref}">Meus clipes</a>`;
       const liTransmit = document.createElement('li');
       const transmitCfg = inHtml ? 'transmit-config.html' : 'html/transmit-config.html';
       liTransmit.innerHTML = `<a class="dropdown-item" href="${transmitCfg}">Transmitir (Configurar)</a>`;
@@ -213,6 +216,7 @@
       menu.appendChild(li1);
       menu.appendChild(liChannel);
       menu.appendChild(liMyVideos);
+      menu.appendChild(liMyClipes);
       menu.appendChild(liTransmit);
       const divider = document.createElement('li'); divider.innerHTML = '<hr class="dropdown-divider">'; menu.appendChild(divider);
       menu.appendChild(li2);
@@ -220,7 +224,7 @@
       // logout
       setTimeout(()=>{
         const lb = document.getElementById('logoutBtn');
-        if(lb) lb.addEventListener('click', (e)=>{ e.preventDefault(); localStorage.removeItem('youshipAuth'); location.reload(); });
+        if(lb) lb.addEventListener('click', (e)=>{ e.preventDefault(); localStorage.removeItem('youshipAuth'); localStorage.removeItem('youshipUser'); localStorage.removeItem('youshipSubscriptions'); location.reload(); });
       }, 50);
     }
     // ajustar o botão do menu (avatar) no topo sempre que renderizar
