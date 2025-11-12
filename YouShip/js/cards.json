@@ -11,4 +11,6 @@
   {"id":"v10","title":"PodCast — Bate-papo","channel":"PodCast Live","viewsText":"2.3 mil visualizações","viewsCount":2300,"time":"3 dias","thumb":"https://via.placeholder.com/480x270/ffe0c2/333333?text=Podcast+2","category":"podcast","ts":1700004000},
   {"id":"v11","title":"Reflexão Diária","channel":"Canal Reflexão","viewsText":"9.9 mil visualizações","viewsCount":9900,"time":"6 dias","thumb":"https://via.placeholder.com/480x270/ffd1b3/333333?text=Reflexão","category":"home","ts":1699900000},
   {"id":"v12","title":"Clipes Selecionados","channel":"Canal Clipes","viewsText":"55 mil visualizações","viewsCount":55000,"time":"1 semana","thumb":"https://via.placeholder.com/480x270/ffb38f/333333?text=Clipes","category":"louvor","ts":1699800000}
+  ,{"id":"v13","title":"Peça: A Jornada","channel":"Grupo Teatral","viewsText":"1.2 mil visualizações","viewsCount":1200,"time":"3 dias","thumb":"https://via.placeholder.com/480x270/ff9f80/333333?text=Teatro+1","category":"teatro","ts":1700005000}
+  ,{"id":"v14","title":"Espetáculo: Noite de Teatro","channel":"Cia. das Artes","viewsText":"900 visualizações","viewsCount":900,"time":"1 semana","thumb":"https://via.placeholder.com/480x270/ff9470/333333?text=Teatro+2","category":"teatro","ts":1699905000}
 ]

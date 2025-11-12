@@ -13,6 +13,52 @@
     - Altere pageSize para ajustar quantos vídeos por carregamento
     - Edite js/cards.json para adicionar/alterar vídeos (use 'id' e opcional 'file' para arquivos locais)
 */
+/*
+    Comentários (PT-BR) - como personalizar e onde adicionar conteúdo
+
+    1) Estrutura de dados (js/cards.json)
+         - Cada item do array representa um vídeo/clip/transmissão com campos comuns:
+             {
+                 id: 'v1',               // identificador único (string)
+                 title: 'Título',        // título exibido
+                 channel: 'Canal X',     // nome do canal/autoria
+                 viewsText: '1.2 mil visualizações',
+                 viewsCount: 1200,       // número puro (opcional mas útil para ordenar)
+                 time: '2 dias' || 'Agora',
+                 thumb: 'images/thumb1.jpg' || 'https://...placeholder',
+                 category: 'louvor' || 'ao-vivo' || 'podcast' || 'teatro' || 'home',
+                 ts: 1700000000,         // timestamp usado para ordenar recentes
+                 file: 'clips/v1.mp4'    // opcional: arquivo local em /clips, /teatro_clips ou /podcasts
+             }
+
+         - Para que um vídeo apareça na página "Teatro", defina "category":"teatro".
+         - Arquivos locais (mp4) devem ser colocados em pastas: `videos/` (player), `clips/` (músicas),
+             `teatro_clips/` (teatro) ou `podcasts/` conforme sua organização. As thumbnails podem ficar em `images/`.
+
+    2) Pastas criadas
+         - `images/`        -> miniaturas e imagens relacionadas
+         - `clips/`         -> clipes de música (mp4)
+         - `teatro_clips/`  -> clipes/peças teatrais (mp4)
+         - `podcasts/`      -> arquivos de podcast (mp3/mp4)
+
+    3) Transmissões ao vivo (simulação local)
+         - A página `html/transmitir.html` gera uma stream key demo e permite criar uma transmissão simulada
+             gravada em `localStorage` sob a chave `liveStreams` (array). O `js/app.js` carrega `liveStreams`
+             e as coloca no topo da lista de vídeos para que a página "Ao Vivo" mostre essas entradas com `time: 'Agora'`.
+         - Estrutura de uma transmissão simulada (exemplo):
+             { id: 'live-163...', title: 'Minha Live', channel: 'Meu Canal', viewsText: '0 assistindo', time: 'Agora', thumb: 'images/live.jpg', category: 'ao-vivo', live: true }
+
+    4) Implementar transmissão real com OBS Studio
+         - Este projeto é estático; para transmitir de verdade você precisa de um servidor RTMP. Fluxo resumido:
+                 OBS -> RTMP server (ex.: nginx-rtmp) -> processo que converte/redistribui para HLS ou WebRTC -> site exibe via player HLS/WebRTC
+         - A página `html/transmitir.html` explica o passo a passo e gera uma chave de teste local.
+
+    5) Dicas rápidas de modificação
+         - Para adicionar novos vídeos: edite `js/cards.json` e adicione objetos conforme o formato acima.
+         - Para que o player local funcione com `file`, coloque o mp4 em `videos/` ou em uma das pastas criadas e referencie o caminho correto.
+         - Se mover páginas entre pastas, verifique `js/header.js` (ele detecta /html/ e ajusta os caminhos).
+
+*/
 document.addEventListener('DOMContentLoaded', ()=>{
         const container = document.getElementById('cardsRow');
     if(!container) return;
@@ -49,9 +95,46 @@ document.addEventListener('DOMContentLoaded', ()=>{
         if(!r.ok) throw new Error('no-json');
         return r.json();
     }).then(data=>{
-        if(Array.isArray(data) && data.length) videos = data.concat(videos);
+                if(Array.isArray(data) && data.length) videos = data.concat(videos);
+                // carregar transmissões simuladas (geradas em transmitir.html) do localStorage
+                try{
+                    const liveRaw = localStorage.getItem('liveStreams');
+                    const uploadsRaw = localStorage.getItem('youshipUploads');
+                    const uploads = uploadsRaw ? JSON.parse(uploadsRaw) : [];
+                    const uploadsMapped = Array.isArray(uploads) ? uploads.map(u=> ({ id: u.id, title: u.title, channel: u.channel, viewsText: '', thumb: 'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category: 'home', ts: u.ts||Date.now() })) : [];
+                    if(liveRaw){
+                        const liveArr = JSON.parse(liveRaw);
+                        if(Array.isArray(liveArr) && liveArr.length){
+                            // uploads primeiro, depois lives, depois restante
+                            videos = uploadsMapped.concat(liveArr).concat(videos);
+                        }else{
+                            videos = uploadsMapped.concat(videos);
+                        }
+                    }else{
+                        videos = uploadsMapped.concat(videos);
+                    }
+                }catch(e){
+                    // se parsing falhar, ainda tentamos adicionar uploads simples
+                    try{ const uploadsRaw2 = localStorage.getItem('youshipUploads'); const uploads2 = uploadsRaw2?JSON.parse(uploadsRaw2):[]; const uploadsMapped2 = Array.isArray(uploads2)?uploads2.map(u=> ({ id: u.id, title: u.title, channel: u.channel, viewsText:'', thumb:'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category:'home', ts: u.ts||Date.now() })):[]; videos = uploadsMapped2.concat(videos); }catch(e2){}
+                }
         applyFiltersAndInit();
     }).catch(()=>{
+                // também tentar carregar transmissões simuladas e uploads mesmo se o fetch falhar
+                try{
+                    const liveRaw = localStorage.getItem('liveStreams');
+                    const uploadsRaw = localStorage.getItem('youshipUploads');
+                    const uploads = uploadsRaw ? JSON.parse(uploadsRaw) : [];
+                    const uploadsMapped = Array.isArray(uploads) ? uploads.map(u=> ({ id: u.id, title: u.title, channel: u.channel, viewsText: '', thumb: 'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category: 'home', ts: u.ts||Date.now() })) : [];
+                    if(liveRaw){
+                        const liveArr = JSON.parse(liveRaw);
+                        if(Array.isArray(liveArr) && liveArr.length){ videos = uploadsMapped.concat(liveArr).concat(videos); }
+                        else videos = uploadsMapped.concat(videos);
+                    }else{
+                        videos = uploadsMapped.concat(videos);
+                    }
+                }catch(e){
+                    try{ const uploadsRaw2 = localStorage.getItem('youshipUploads'); const uploads2 = uploadsRaw2?JSON.parse(uploadsRaw2):[]; const uploadsMapped2 = Array.isArray(uploads2)?uploads2.map(u=> ({ id: u.id, title: u.title, channel: u.channel, viewsText:'', thumb:'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category:'home', ts: u.ts||Date.now() })):[]; videos = uploadsMapped2.concat(videos); }catch(e2){}
+                }
         applyFiltersAndInit();
     });
 

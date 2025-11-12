@@ -1,5 +1,12 @@
 // header.js - injeta um cabeçalho/offcanvas/banner reutilizável
 // Este script deve ser incluído antes de `js/app.js` nas páginas.
+//
+// Comentários (PT-BR):
+// - Para editar links do menu principal, altere as constantes abaixo (homeLink, aoLink, louvorLink, podcastLink, teatroLink, transmitirLink).
+// - O script detecta se a página atual está dentro de /html/ e ajusta os caminhos automaticamente (variável `inHtml`).
+// - O offcanvas (menu mobile) e a sidebar usam os mesmos hrefs; se criar novas páginas, adicione aqui o link correspondente.
+// - O menu do usuário (Criar conta / Entrar / Perfil / Sair) é renderizado dinamicamente lendo `localStorage.youshipAuth` e `localStorage.youshipUser`.
+// - Para exibir um novo item fixo na sidebar (desktop), é necessário também atualizar os arquivos em `html/` que possuem a sidebar estática.
 (function(){
   // calcular se estamos dentro da pasta /html/
   const inHtml = location.pathname.indexOf('/html/') !== -1;
@@ -8,6 +15,8 @@
   const aoLink = inHtml ? 'ao-vivo.html' : 'html/ao-vivo.html';
   const louvorLink = inHtml ? 'louvor.html' : 'html/louvor.html';
   const podcastLink = inHtml ? 'podcast.html' : 'html/podcast.html';
+  const teatroLink = inHtml ? 'teatro.html' : 'html/teatro.html';
+  const transmitirLink = inHtml ? 'transmitir.html' : 'html/transmitir.html';
   const perfilLink = inHtml ? 'perfil.html' : 'html/perfil.html';
   const loginLink = inHtml ? 'login.html' : 'html/login.html';
   const registerLink = inHtml ? 'cadastro.html' : 'html/cadastro.html';
@@ -41,7 +50,7 @@
 
           <ul class="navbar-nav ms-auto d-flex align-items-center gap-2">
             <li class="nav-item">
-              <a class="nav-link" href="#" title="Criar conteúdo"><i class="bi bi-camera-reels" style="font-size:1.2rem; color:var(--youship-orange)"></i></a>
+              <a class="nav-link" href="#" id="createContentBtn" title="Criar conteúdo" data-bs-toggle="modal" data-bs-target="#createContentModal"><i class="bi bi-camera-reels" style="font-size:1.2rem; color:var(--youship-orange)"></i></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" title="Notificações"><i class="bi bi-bell" style="font-size:1.2rem"></i></a>
@@ -71,6 +80,8 @@
           <a class="nav-link" href="${aoLink}"><i class="bi bi-broadcast-pin me-2"></i>Ao Vivo</a>
           <a class="nav-link" href="${louvorLink}"><i class="bi bi-music-note-list me-2"></i>Louvor</a>
           <a class="nav-link" href="${podcastLink}"><i class="bi bi-mic-fill me-2"></i>PodCast</a>
+          <a class="nav-link" href="${teatroLink}"><i class="bi bi-easel me-2"></i>Teatro</a>
+          <a class="nav-link" href="${transmitirLink}"><i class="bi bi-camera-reels me-2"></i>Transmitir</a>
           <hr>
         </nav>
       </div>
@@ -79,6 +90,28 @@
     <!-- Banner -->
     <div class="container-fluid mt-3"><div class="row"><div class="col-12"><div id="bannerArea" class="p-3 mb-3 rounded-3 text-white" style="background:linear-gradient(90deg,var(--youship-orange),#ff944d)"><div class="d-flex justify-content-between align-items-center"><div><strong>Espaço de banner/ anúncio</strong><div class="small">Coloque aqui campanhas, promoções ou anúncios.</div></div><div><a href="#" class="btn btn-sm btn-light text-dark">Saber mais</a></div></div></div></div></div>
   `;
+
+  // modal para Criar Conteúdo (upload, transmitir, criar canal)
+  const modalHtml = `
+  <div class="modal fade" id="createContentModal" tabindex="-1" aria-labelledby="createContentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createContentModalLabel">Criar conteúdo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-grid gap-2">
+            <button id="uploadVideoBtn" class="btn btn-outline-primary">Enviar vídeo do computador</button>
+            <button id="goTransmitBtn" class="btn btn-outline-secondary">Transmitir ao vivo</button>
+            <button id="createChannelBtn" class="btn btn-outline-warning">Criar canal</button>
+          </div>
+          <input id="fileUploadInput" type="file" accept="video/*" style="display:none" />
+        </div>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
 
   document.body.insertBefore(container, document.body.firstChild);
 
@@ -120,6 +153,131 @@
 
   // render no load
   renderUserMenu();
+  // interceptar clicks em links que levam à página de transmissão
+  // Se o usuário não estiver autenticado, perguntamos se quer entrar ou criar conta
+  function interceptTransmitClicks(){
+    document.addEventListener('click', function(e){
+      const a = e.target.closest ? e.target.closest('a') : null;
+      if(!a) return;
+      const href = a.getAttribute('href') || '';
+      // normalizar href relativo (pegar só o final)
+      const end = href.split('/').pop();
+      if(end === 'transmitir.html'){
+        const auth = localStorage.getItem('youshipAuth');
+        if(!auth){
+          e.preventDefault();
+          const go = confirm('Você precisa entrar para acessar Transmitir. Deseja entrar agora? (OK = Entrar / Cancel = Criar conta)');
+          if(go) window.location.href = loginLink; else window.location.href = registerLink;
+        }
+      }
+    });
+  }
+  interceptTransmitClicks();
+  // popular lista de inscrições na sidebar (se existirem e usuário logado)
+  function renderSidebarSubscriptions(){
+    try{
+      const auth = localStorage.getItem('youshipAuth');
+      const subs = JSON.parse(localStorage.getItem('youshipSubscriptions')||'[]');
+      // procurar um placeholder nas sidebars estáticas
+      const targets = document.querySelectorAll('.sidebar');
+      targets.forEach(side=>{
+        let wrap = side.querySelector('#subsSidebar');
+        if(!wrap){
+          wrap = document.createElement('div'); wrap.id='subsSidebar'; wrap.className='mt-3'; side.appendChild(wrap);
+        }
+        if(!auth){ wrap.innerHTML = ''; return; }
+        if(!subs || subs.length===0){ wrap.innerHTML = '<div class="small text-muted">Nenhuma inscrição.</div>'; return; }
+        wrap.innerHTML = '<h6 class="mt-2">Inscrições</h6>' + subs.map(s=>`<div class="d-flex align-items-center gap-2 py-1"><img src="https://via.placeholder.com/32" class="rounded-circle" alt=""><div class="small">${s}</div></div>`).join('');
+      });
+    }catch(e){ /* ignore */ }
+  }
+  renderSidebarSubscriptions();
+  window.addEventListener('storage', (e)=>{ if(e.key==='youshipSubscriptions' || e.key==='youshipAuth') renderSidebarSubscriptions(); });
+  
+  // hook para upload de vídeo (botão do modal)
+  try{
+    const uploadBtn = document.getElementById('uploadVideoBtn');
+    const fileInput = document.getElementById('fileUploadInput');
+    if(uploadBtn && fileInput){
+      uploadBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        fileInput.value = '';
+        // se helper de uploads não estiver carregado, carregá-lo dinamicamente
+        if(!window.YouShipUploads){
+          const script = document.createElement('script');
+          script.src = inHtml ? '../js/uploads.js' : 'js/uploads.js';
+          script.onload = ()=> fileInput.click();
+          script.onerror = ()=> alert('Não foi possível carregar o módulo de upload.');
+          document.head.appendChild(script);
+        }else{
+          fileInput.click();
+        }
+      });
+      fileInput.addEventListener('change', async (e)=>{
+        const f = e.target.files && e.target.files[0];
+        if(!f) return;
+        // exigir autenticação para upload
+        const auth = localStorage.getItem('youshipAuth');
+        if(!auth){
+          const go = confirm('Você precisa entrar para enviar vídeos. Deseja entrar agora? (OK = Entrar / Cancel = Criar conta)');
+          if(go) window.location.href = loginLink; else window.location.href = registerLink;
+          return;
+        }
+        if(!window.YouShipUploads || !YouShipUploads.saveUpload){
+          alert('Funcionalidade de upload não está disponível neste navegador.');
+          return;
+        }
+        try{
+          // salvar blob no IndexedDB
+          const userRaw = localStorage.getItem('youshipUser');
+          let channel = auth;
+          try{ const u = JSON.parse(userRaw); if(u && u.name) channel = u.name; }catch(e){}
+          const id = await YouShipUploads.saveUpload(f, { title: f.name, channel });
+          // registrar metadados simples em localStorage para que o feed carregue o upload
+          const metaRaw = localStorage.getItem('youshipUploads');
+          const arr = metaRaw ? JSON.parse(metaRaw) : [];
+          arr.unshift({ id, title: f.name, channel, ts: Date.now(), mime: f.type, size: f.size });
+          localStorage.setItem('youshipUploads', JSON.stringify(arr));
+          // fechar modal e ir para a página de vídeo
+          const modalEl = document.getElementById('createContentModal');
+          try{ const modal = bootstrap.Modal.getInstance(modalEl); if(modal) modal.hide(); }catch(e){}
+          const videoTarget = inHtml ? 'video.html' : 'html/video.html';
+          window.location.href = `${videoTarget}?id=${encodeURIComponent(id)}&source=upload`;
+        }catch(err){
+          console.error(err);
+          alert('Ocorreu um erro ao salvar o vídeo: ' + (err && err.message ? err.message : err));
+        }
+      });
+    }
+  }catch(e){ console.warn('Upload hookup failed', e); }
+  // marcar item ativo na sidebar/offcanvas com base em body[data-page] ou pathname
+  function markActiveLinks(){
+    const page = document.body && document.body.dataset && document.body.dataset.page ? document.body.dataset.page : '';
+    const links = document.querySelectorAll('.nav.flex-column a.nav-link, .offcanvas-body .nav-link');
+    links.forEach(a=>{
+      try{
+        const href = a.getAttribute('href');
+        if(!href) return;
+        const url = new URL(href, location.href);
+        const target = url.pathname.split('/').pop(); // ex: ao-vivo.html
+        // marcar ativo por data-page quando disponível
+        if(page){
+          if(target === `${page}.html` || (page==='home' && (target==='index.html' || url.pathname === '/' || target===''))){
+            a.classList.add('active');
+          }else{
+            a.classList.remove('active');
+          }
+        }else{
+          // fallback: comparar pathname
+          if(url.pathname === location.pathname || url.pathname === location.pathname.replace(/\/$/, '') ) a.classList.add('active'); else a.classList.remove('active');
+        }
+      }catch(e){/* ignore bad urls */}
+    });
+  }
+  // rodar uma vez após render
+  setTimeout(markActiveLinks, 30);
+  // também rodar ao carregar a página (útil se header.js for inserido antes do body ser ajustado)
+  window.addEventListener('load', markActiveLinks);
   // observar mudanças simples (outros scripts podem alterar localStorage)
   window.addEventListener('storage', (e)=>{ if(e.key === 'youshipAuth' || e.key === 'youshipUser') renderUserMenu(); });
 
