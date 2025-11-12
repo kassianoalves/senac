@@ -99,26 +99,51 @@ document.addEventListener('DOMContentLoaded', () => {
         // carregar transmissões simuladas (geradas em transmitir.html) do localStorage
         try {
             const liveRaw = localStorage.getItem('liveStreams');
-            const uploadsRaw = localStorage.getItem('youshipUploads');
-            const uploads = uploadsRaw ? JSON.parse(uploadsRaw) : [];
+            // Use IndexedDB for uploads instead of localStorage
             const currentAuth = localStorage.getItem('youshipAuth');
-            const uploadsMapped = Array.isArray(uploads) ? uploads.map(u => ({ id: u.id, title: u.title, channel: u.channel, viewsText: '', thumb: u.thumb || u.thumbDataUrl || 'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category: u.category || 'home', ts: u.ts || Date.now(), description: u.description || u.desc || '', visibility: u.visibility || 'public', owner: u.owner || null, channelAvatar: u.channelAvatar || null })) : [];
-            // filtrar uploads privados (mostrar apenas se for dono)
-            const visibleUploads = uploadsMapped.filter(u => u.visibility === 'public' || (u.owner && currentAuth && u.owner === currentAuth));
-            if (liveRaw) {
-                const liveArr = JSON.parse(liveRaw);
-                if (Array.isArray(liveArr) && liveArr.length) {
-                    // uploads primeiro, depois lives, depois restante
-                    videos = visibleUploads.concat(liveArr).concat(videos);
+            YouShipUploads.listUploads().then(uploads => {
+                const uploadsMapped = Array.isArray(uploads) ? uploads.map(u => ({ id: u.id, title: u.title || u.name, channel: u.channel, viewsText: '', thumb: u.thumb || u.thumbDataUrl || 'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category: u.category || 'home', ts: u.ts || Date.now(), description: u.description || u.desc || '', visibility: u.visibility || 'public', owner: u.owner || null, channelAvatar: u.channelAvatar || null })) : [];
+                // filtrar uploads privados (mostrar apenas se for dono)
+                const visibleUploads = uploadsMapped.filter(u => u.visibility === 'public' || (u.owner && currentAuth && u.owner === currentAuth));
+                if (liveRaw) {
+                    const liveArr = JSON.parse(liveRaw);
+                    if (Array.isArray(liveArr) && liveArr.length) {
+                        // uploads primeiro, depois lives, depois restante
+                        videos = visibleUploads.concat(liveArr).concat(videos);
+                    } else {
+                        videos = visibleUploads.concat(videos);
+                    }
                 } else {
                     videos = visibleUploads.concat(videos);
                 }
-            } else {
-                videos = visibleUploads.concat(videos);
-            }
+                applyFiltersAndInit();
+            }).catch(e => {
+                console.warn('Failed to load uploads from IndexedDB:', e);
+                // fallback to localStorage if IDB fails
+                try {
+                    const uploadsRaw = localStorage.getItem('youshipUploads');
+                    const uploads = uploadsRaw ? JSON.parse(uploadsRaw) : [];
+                    const uploadsMapped = Array.isArray(uploads) ? uploads.map(u => ({ id: u.id, title: u.title, channel: u.channel, viewsText: '', thumb: u.thumb || u.thumbDataUrl || 'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category: u.category || 'home', ts: u.ts || Date.now(), description: u.description || u.desc || '', visibility: u.visibility || 'public', owner: u.owner || null, channelAvatar: u.channelAvatar || null })) : [];
+                    const visibleUploads = uploadsMapped.filter(u => u.visibility === 'public' || (u.owner && currentAuth && u.owner === currentAuth));
+                    if (liveRaw) {
+                        const liveArr = JSON.parse(liveRaw);
+                        if (Array.isArray(liveArr) && liveArr.length) {
+                            videos = visibleUploads.concat(liveArr).concat(videos);
+                        } else {
+                            videos = visibleUploads.concat(videos);
+                        }
+                    } else {
+                        videos = visibleUploads.concat(videos);
+                    }
+                } catch (e2) {
+                    console.warn('Fallback to localStorage also failed:', e2);
+                }
+                applyFiltersAndInit();
+            });
         } catch (e) {
             // se parsing falhar, ainda tentamos adicionar uploads simples
             try { const uploadsRaw2 = localStorage.getItem('youshipUploads'); const uploads2 = uploadsRaw2 ? JSON.parse(uploadsRaw2) : []; const uploadsMapped2 = Array.isArray(uploads2) ? uploads2.map(u => ({ id: u.id, title: u.title, channel: u.channel, viewsText: '', thumb: 'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category: 'home', ts: u.ts || Date.now() })) : []; videos = uploadsMapped2.concat(videos); } catch (e2) { }
+            applyFiltersAndInit();
         }
         applyFiltersAndInit();
     }).catch(() => {

@@ -320,33 +320,12 @@
           if(go) window.location.href = loginLink; else window.location.href = registerLink;
           return;
         }
-        if(!window.YouShipUploads || !YouShipUploads.saveUpload){
-          alert('Funcionalidade de upload não está disponível neste navegador.');
-          return;
-        }
-        try{
-          // salvar blob no IndexedDB
-          const userRaw = localStorage.getItem('youshipUser');
-          let channel = auth;
-          let channelAvatar = null;
-          try{ const u = JSON.parse(userRaw); if(u && u.channel && u.channel.name) channel = u.channel.name; if(u && u.channel && u.channel.avatarDataUrl) channelAvatar = u.channel.avatarDataUrl; else if(u && u.avatarDataUrl) channelAvatar = u.avatarDataUrl; }catch(e){}
-          // ler categoria/visibilidade selecionadas no modal
-          const catEl = document.getElementById('uploadCategorySelect');
-          const visEl = document.getElementById('uploadVisibilitySelect');
-          const category = catEl ? catEl.value : 'home';
-          const visibility = visEl ? visEl.value : 'public';
-          const result = await YouShipUploads.saveUpload(f, { title: f.name, channel, owner: auth, category, visibility, channelAvatar });
-          const id = result && result.id ? result.id : result;
-          const thumb = result && result.thumb ? result.thumb : null;
-          // fechar modal e ir para a página de vídeo
-          const modalEl = document.getElementById('createContentModal');
-          try{ const modal = bootstrap.Modal.getInstance(modalEl); if(modal) modal.hide(); }catch(e){}
-          const videoTarget = inHtml ? 'video.html' : 'html/video.html';
-          window.location.href = `${videoTarget}?id=${encodeURIComponent(id)}&source=upload`;
-        }catch(err){
-          console.error(err);
-          alert('Ocorreu um erro ao salvar o vídeo: ' + (err && err.message ? err.message : err));
-        }
+        // Instead of direct save, redirect to upload page
+        // fechar modal
+        const modalEl = document.getElementById('createContentModal');
+        try{ const modal = bootstrap.Modal.getInstance(modalEl); if(modal) modal.hide(); }catch(e){}
+        const uploadTarget = inHtml ? 'upload.html' : 'html/upload.html';
+        window.location.href = uploadTarget;
       });
     }
   }catch(e){ console.warn('Upload hookup failed', e); }
