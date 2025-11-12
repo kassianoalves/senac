@@ -76,7 +76,23 @@
                 videoArea.innerHTML = '<div class="alert alert-warning">Upload detectado, mas o suporte a reproduzir uploads não está disponível (YouShipUploads não encontrado).</div>';
               }
             }else{
-              videoArea.innerHTML = '<div class="alert alert-danger">Vídeo não encontrado.</div>';
+              // tentar transmissões ao vivo registradas em localStorage.liveStreams
+              try{
+                const liveRaw = localStorage.getItem('liveStreams');
+                const liveArr = liveRaw ? JSON.parse(liveRaw) : [];
+                const liveMeta = (liveArr||[]).find(l=> String(l.id) === String(id) || l.id === id);
+                if(liveMeta){
+                  // se a live expõe HLS em liveMeta.file ou liveMeta.hls
+                  const hlsUrl = liveMeta.file || liveMeta.hls || liveMeta.src || null;
+                  if(hlsUrl){
+                    renderVideoElement(hlsUrl, liveMeta);
+                  }else{
+                    videoArea.innerHTML = '<div class="alert alert-warning">Transmissão encontrada, mas sem URL HLS configurada.</div>';
+                  }
+                }else{
+                  videoArea.innerHTML = '<div class="alert alert-danger">Vídeo não encontrado.</div>';
+                }
+              }catch(e){ console.error(e); videoArea.innerHTML = '<div class="alert alert-danger">Vídeo não encontrado.</div>'; }
             }
           }catch(e){ console.error(e); videoArea.innerHTML = '<div class="alert alert-danger">Erro ao procurar vídeos locais.</div>'; }
         }
