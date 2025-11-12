@@ -51,66 +51,92 @@
           renderVideoElement(fileSrc, v);
           try{ const key = 'youshipHistory'; const raw = localStorage.getItem(key); const arr = raw?JSON.parse(raw):[]; arr.unshift(Object.assign({}, v, {viewedAt: Date.now()})); localStorage.setItem(key, JSON.stringify(arr.slice(0,200))); }catch(e){}
         }else{
-          // Se não encontrado no cards.json, checar uploads locais registrados em localStorage
+          // Se não encontrado no cards.json, checar uploads locais registrados em IndexedDB
           try{
-            const uploadsRaw = localStorage.getItem('youshipUploads');
-            const uploads = uploadsRaw ? JSON.parse(uploadsRaw) : [];
-            const meta = uploads.find(u=> String(u.id) === String(id));
-            if(meta){
-              // respeitar visibilidade
-              const currentAuth = localStorage.getItem('youshipAuth');
-              if(meta.visibility === 'private' && (!meta.owner || meta.owner !== currentAuth)){
-                videoArea.innerHTML = '<div class="alert alert-warning">Este vídeo é privado.</div>';
-                return;
-              }
-              // obter blob do IndexedDB via YouShipUploads
-              if(window.YouShipUploads && YouShipUploads.getUploadBlob){
-                YouShipUploads.getUploadBlob(meta.id).then(blob=>{
-                  if(!blob){ videoArea.innerHTML = '<div class="alert alert-danger">Arquivo enviado não encontrado.</div>'; return; }
-                  const url = URL.createObjectURL(blob);
-                  const vobj = { title: meta.title, channel: meta.channel, viewsText: '', thumb: meta.thumb || '', channelAvatar: meta.channelAvatar||null };
-                  renderVideoElement(url, vobj);
-                  try{ const key = 'youshipHistory'; const raw = localStorage.getItem(key); const arr = raw?JSON.parse(raw):[]; arr.unshift(Object.assign({}, vobj, {viewedAt: Date.now()})); localStorage.setItem(key, JSON.stringify(arr.slice(0,200))); }catch(e){}
-                }).catch(err=>{ console.error(err); videoArea.innerHTML = '<div class="alert alert-danger">Erro ao recuperar arquivo enviado.</div>'; });
-              }else{
-                videoArea.innerHTML = '<div class="alert alert-warning">Upload detectado, mas o suporte a reproduzir uploads não está disponível (YouShipUploads não encontrado).</div>';
-              }
-            }else{
-              // tentar transmissões ao vivo registradas em localStorage.liveStreams
-              try{
-                const liveRaw = localStorage.getItem('liveStreams');
-                const liveArr = liveRaw ? JSON.parse(liveRaw) : [];
-                const liveMeta = (liveArr||[]).find(l=> String(l.id) === String(id) || l.id === id);
-                if(liveMeta){
-                  // se a live expõe HLS em liveMeta.file ou liveMeta.hls
-                  const hlsUrl = liveMeta.file || liveMeta.hls || liveMeta.src || null;
-                  if(hlsUrl){
-                    renderVideoElement(hlsUrl, liveMeta);
-                  }else{
-                    videoArea.innerHTML = '<div class="alert alert-warning">Transmissão encontrada, mas sem URL HLS configurada.</div>';
+            if(window.YouShipUploads && YouShipUploads.getUploadMeta){
+              YouShipUploads.getUploadMeta(id).then(meta=>{
+                if(meta){
+                  // respeitar visibilidade
+                  const currentAuth = localStorage.getItem('youshipAuth');
+                  if(meta.visibility === 'private' && (!meta.owner || meta.owner !== currentAuth)){
+                    videoArea.innerHTML = '<div class="alert alert-warning">Este vídeo é privado.</div>';
+                    return;
                   }
+                  // obter blob do IndexedDB via YouShipUploads
+                  YouShipUploads.getUploadBlob(meta.id).then(blob=>{
+                    if(!blob){ videoArea.innerHTML = '<div class="alert alert-danger">Arquivo enviado não encontrado.</div>'; return; }
+                    const url = URL.createObjectURL(blob);
+                    const vobj = { title: meta.title || meta.name, channel: meta.channel, viewsText: '', thumb: meta.thumbDataUrl || meta.thumb || '', channelAvatar: meta.channelAvatar||null, description: meta.description || meta.desc || '' };
+                    renderVideoElement(url, vobj);
+                    try{ const key = 'youshipHistory'; const raw = localStorage.getItem(key); const arr = raw?JSON.parse(raw):[]; arr.unshift(Object.assign({}, vobj, {viewedAt: Date.now()})); localStorage.setItem(key, JSON.stringify(arr.slice(0,200))); }catch(e){}
+                  }).catch(err=>{ console.error(err); videoArea.innerHTML = '<div class="alert alert-danger">Erro ao recuperar arquivo enviado.</div>'; });
                 }else{
-                  videoArea.innerHTML = '<div class="alert alert-danger">Vídeo não encontrado.</div>';
+                  // tentar transmissões ao vivo registradas em localStorage.liveStreams
+                  try{
+                    const liveRaw = localStorage.getItem('liveStreams');
+                    const liveArr = liveRaw ? JSON.parse(liveRaw) : [];
+                    const liveMeta = (liveArr||[]).find(l=> String(l.id) === String(id) || l.id === id);
+                    if(liveMeta){
+                      // se a live expõe HLS em liveMeta.file ou liveMeta.hls
+                      const hlsUrl = liveMeta.file || liveMeta.hls || liveMeta.src || null;
+                      if(hlsUrl){
+                        renderVideoElement(hlsUrl, liveMeta);
+                      }else{
+                        videoArea.innerHTML = '<div class="alert alert-warning">Transmissão encontrada, mas sem URL HLS configurada.</div>';
+                      }
+                    }else{
+                      videoArea.innerHTML = '<div class="alert alert-danger">Vídeo não encontrado.</div>';
+                    }
+                  }catch(e){ console.error(e); videoArea.innerHTML = '<div class="alert alert-danger">Vídeo não encontrado.</div>'; }
                 }
-              }catch(e){ console.error(e); videoArea.innerHTML = '<div class="alert alert-danger">Vídeo não encontrado.</div>'; }
+              }).catch(err=>{ console.error(err); videoArea.innerHTML = '<div class="alert alert-danger">Erro ao recuperar metadados do vídeo.</div>'; });
+            }else{
+              videoArea.innerHTML = '<div class="alert alert-warning">Suporte a uploads não está disponível (YouShipUploads não encontrado).</div>';
             }
           }catch(e){ console.error(e); videoArea.innerHTML = '<div class="alert alert-danger">Erro ao procurar vídeos locais.</div>'; }
         }
       }).catch(()=>{
         // se falhar o fetch, tentar apenas uploads locais
         try{
-          const uploadsRaw = localStorage.getItem('youshipUploads');
-          const uploads = uploadsRaw ? JSON.parse(uploadsRaw) : [];
-          const meta = uploads.find(u=> String(u.id) === String(id));
-          if(meta && window.YouShipUploads && YouShipUploads.getUploadBlob){
-            YouShipUploads.getUploadBlob(meta.id).then(blob=>{
-              if(!blob){ videoArea.innerHTML = '<div class="alert alert-danger">Arquivo enviado não encontrado.</div>'; return; }
-              const url = URL.createObjectURL(blob);
-              const vobj = { title: meta.title, channel: meta.channel, viewsText: '', thumb: '' };
-              renderVideoElement(url, vobj);
-            }).catch(err=>{ console.error(err); videoArea.innerHTML = '<div class="alert alert-danger">Erro ao recuperar arquivo enviado.</div>'; });
+          if(window.YouShipUploads && YouShipUploads.getUploadMeta){
+            YouShipUploads.getUploadMeta(id).then(meta=>{
+              if(meta){
+                // respeitar visibilidade
+                const currentAuth = localStorage.getItem('youshipAuth');
+                if(meta.visibility === 'private' && (!meta.owner || meta.owner !== currentAuth)){
+                  videoArea.innerHTML = '<div class="alert alert-warning">Este vídeo é privado.</div>';
+                  return;
+                }
+                // obter blob do IndexedDB via YouShipUploads
+                YouShipUploads.getUploadBlob(meta.id).then(blob=>{
+                  if(!blob){ videoArea.innerHTML = '<div class="alert alert-danger">Arquivo enviado não encontrado.</div>'; return; }
+                  const url = URL.createObjectURL(blob);
+                  const vobj = { title: meta.title || meta.name, channel: meta.channel, viewsText: '', thumb: meta.thumbDataUrl || meta.thumb || '', channelAvatar: meta.channelAvatar||null, description: meta.description || meta.desc || '' };
+                  renderVideoElement(url, vobj);
+                  try{ const key = 'youshipHistory'; const raw = localStorage.getItem(key); const arr = raw?JSON.parse(raw):[]; arr.unshift(Object.assign({}, vobj, {viewedAt: Date.now()})); localStorage.setItem(key, JSON.stringify(arr.slice(0,200))); }catch(e){}
+                }).catch(err=>{ console.error(err); videoArea.innerHTML = '<div class="alert alert-danger">Erro ao recuperar arquivo enviado.</div>'; });
+              }else{
+                // tentar transmissões ao vivo registradas em localStorage.liveStreams
+                try{
+                  const liveRaw = localStorage.getItem('liveStreams');
+                  const liveArr = liveRaw ? JSON.parse(liveRaw) : [];
+                  const liveMeta = (liveArr||[]).find(l=> String(l.id) === String(id) || l.id === id);
+                  if(liveMeta){
+                    // se a live expõe HLS em liveMeta.file ou liveMeta.hls
+                    const hlsUrl = liveMeta.file || liveMeta.hls || liveMeta.src || null;
+                    if(hlsUrl){
+                      renderVideoElement(hlsUrl, liveMeta);
+                    }else{
+                      videoArea.innerHTML = '<div class="alert alert-warning">Transmissão encontrada, mas sem URL HLS configurada.</div>';
+                    }
+                  }else{
+                    videoArea.innerHTML = '<div class="alert alert-danger">Vídeo não encontrado.</div>';
+                  }
+                }catch(e){ console.error(e); videoArea.innerHTML = '<div class="alert alert-danger">Vídeo não encontrado.</div>'; }
+              }
+            }).catch(err=>{ console.error(err); videoArea.innerHTML = '<div class="alert alert-danger">Erro ao recuperar metadados do vídeo.</div>'; });
           }else{
-            videoArea.innerHTML = '<div class="alert alert-danger">Erro ao carregar metadados.</div>';
+            videoArea.innerHTML = '<div class="alert alert-warning">Suporte a uploads não está disponível (YouShipUploads não encontrado).</div>';
           }
         }catch(e){ console.error(e); videoArea.innerHTML = '<div class="alert alert-danger">Erro ao carregar metadados.</div>'; }
       });
