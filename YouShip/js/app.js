@@ -60,6 +60,23 @@
 
 */
 document.addEventListener('DOMContentLoaded', () => {
+    // determinar prefixo para assets quando estamos dentro de /html/
+    const inHtmlFolder = location.pathname.indexOf('/html/') !== -1;
+    const assetsPrefix = inHtmlFolder ? '../' : '';
+
+    // função para deduplicar vídeos por ID
+    function deduplicateVideos(videosArray) {
+        const seen = new Set();
+        return videosArray.filter(video => {
+            const id = video.id || video.title;
+            if (seen.has(id)) {
+                return false;
+            }
+            seen.add(id);
+            return true;
+        });
+    }
+
     const container = document.getElementById('cardsRow');
     if (!container) return;
 
@@ -84,11 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // detectar categoria da página (index -> home, ao-vivo, louvor, podcast etc.)
     const pageCategory = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'home';
     const filterSelect = document.getElementById('filterSelect');
+    const searchInput = document.getElementById('searchInput');
     let filteredVideos = [];
-
-    // determinar prefixo para assets quando estamos dentro de /html/
-    const inHtmlFolder = location.pathname.indexOf('/html/') !== -1;
-    const assetsPrefix = inHtmlFolder ? '../' : '';
+    let searchQuery = ''; // termo de pesquisa
 
     // tentar carregar js/cards.json via fetch (usa prefix quando necessário)
     fetch(`${assetsPrefix}js/cards.json`).then(r => {
@@ -99,26 +114,51 @@ document.addEventListener('DOMContentLoaded', () => {
         // carregar transmissões simuladas (geradas em transmitir.html) do localStorage
         try {
             const liveRaw = localStorage.getItem('liveStreams');
-            const uploadsRaw = localStorage.getItem('youshipUploads');
-            const uploads = uploadsRaw ? JSON.parse(uploadsRaw) : [];
+            // Use IndexedDB for uploads instead of localStorage
             const currentAuth = localStorage.getItem('youshipAuth');
-            const uploadsMapped = Array.isArray(uploads) ? uploads.map(u => ({ id: u.id, title: u.title, channel: u.channel, viewsText: '', thumb: u.thumb || u.thumbDataUrl || 'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category: u.category || 'home', ts: u.ts || Date.now(), description: u.description || u.desc || '', visibility: u.visibility || 'public', owner: u.owner || null, channelAvatar: u.channelAvatar || null })) : [];
-            // filtrar uploads privados (mostrar apenas se for dono)
-            const visibleUploads = uploadsMapped.filter(u => u.visibility === 'public' || (u.owner && currentAuth && u.owner === currentAuth));
-            if (liveRaw) {
-                const liveArr = JSON.parse(liveRaw);
-                if (Array.isArray(liveArr) && liveArr.length) {
-                    // uploads primeiro, depois lives, depois restante
-                    videos = visibleUploads.concat(liveArr).concat(videos);
+            YouShipUploads.listUploads().then(uploads => {
+                const uploadsMapped = Array.isArray(uploads) ? uploads.map(u => ({ id: u.id, title: u.title || u.name, channel: u.channel, viewsText: '', thumb: u.thumb || u.thumbDataUrl || 'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category: u.category || 'home', ts: u.ts || Date.now(), description: u.description || u.desc || '', visibility: u.visibility || 'public', owner: u.owner || null, channelAvatar: u.channelAvatar || null })) : [];
+                // filtrar uploads privados (mostrar apenas se for dono)
+                const visibleUploads = uploadsMapped.filter(u => u.visibility === 'public' || (u.owner && currentAuth && u.owner === currentAuth));
+                if (liveRaw) {
+                    const liveArr = JSON.parse(liveRaw);
+                    if (Array.isArray(liveArr) && liveArr.length) {
+                        // uploads primeiro, depois lives, depois restante
+                        videos = visibleUploads.concat(liveArr).concat(videos);
+                    } else {
+                        videos = visibleUploads.concat(videos);
+                    }
                 } else {
                     videos = visibleUploads.concat(videos);
                 }
-            } else {
-                videos = visibleUploads.concat(videos);
-            }
+                applyFiltersAndInit();
+            }).catch(e => {
+                console.warn('Failed to load uploads from IndexedDB:', e);
+                // fallback to localStorage if IDB fails
+                try {
+                    const uploadsRaw = localStorage.getItem('youshipUploads');
+                    const uploads = uploadsRaw ? JSON.parse(uploadsRaw) : [];
+                    const uploadsMapped = Array.isArray(uploads) ? uploads.map(u => ({ id: u.id, title: u.title, channel: u.channel, viewsText: '', thumb: u.thumb || u.thumbDataUrl || 'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category: u.category || 'home', ts: u.ts || Date.now(), description: u.description || u.desc || '', visibility: u.visibility || 'public', owner: u.owner || null, channelAvatar: u.channelAvatar || null })) : [];
+                    const visibleUploads = uploadsMapped.filter(u => u.visibility === 'public' || (u.owner && currentAuth && u.owner === currentAuth));
+                    if (liveRaw) {
+                        const liveArr = JSON.parse(liveRaw);
+                        if (Array.isArray(liveArr) && liveArr.length) {
+                            videos = visibleUploads.concat(liveArr).concat(videos);
+                        } else {
+                            videos = visibleUploads.concat(videos);
+                        }
+                    } else {
+                        videos = visibleUploads.concat(videos);
+                    }
+                } catch (e2) {
+                    console.warn('Fallback to localStorage also failed:', e2);
+                }
+                applyFiltersAndInit();
+            });
         } catch (e) {
             // se parsing falhar, ainda tentamos adicionar uploads simples
             try { const uploadsRaw2 = localStorage.getItem('youshipUploads'); const uploads2 = uploadsRaw2 ? JSON.parse(uploadsRaw2) : []; const uploadsMapped2 = Array.isArray(uploads2) ? uploads2.map(u => ({ id: u.id, title: u.title, channel: u.channel, viewsText: '', thumb: 'https://via.placeholder.com/480x270/ffb266/333333?text=Seu+Vídeo', category: 'home', ts: u.ts || Date.now() })) : []; videos = uploadsMapped2.concat(videos); } catch (e2) { }
+            applyFiltersAndInit();
         }
         applyFiltersAndInit();
     }).catch(() => {
@@ -155,6 +195,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // filtrar por página
             if(pageCategory && pageCategory !== 'home'){
                 filteredVideos = filteredVideos.filter(v => v.category === pageCategory);
+        }
+        // aplicar pesquisa se houver
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase();
+            filteredVideos = filteredVideos.filter(v =>
+                (v.title && v.title.toLowerCase().includes(query)) ||
+                (v.channel && v.channel.toLowerCase().includes(query))
+            );
         }
         // aplicar seleção
         const sel = filterSelect ? filterSelect.value : 'relevant';
@@ -310,6 +358,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // reagir a mudanças de filtro
     if (filterSelect) {
         filterSelect.addEventListener('change', () => {
+            applyFilter();
+            if (observer) observer.disconnect();
+            // reset
+            container.innerHTML = '';
+            page = 0;
+            renderNextPage();
+            // reattach observer
+            if (observer && loadMoreBtn) observer.observe(loadMoreBtn);
+        });
+    }
+
+    // reagir a mudanças de pesquisa
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
             applyFilter();
             if (observer) observer.disconnect();
             // reset

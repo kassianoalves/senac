@@ -1,0 +1,5 @@
+- [x] Modify html/upload.html to add visibility select field
+- [x] Update js/upload-form.js to check login, pre-fill user data, handle visibility
+- [x] Change js/header.js modal upload button to redirect to upload.html
+- [x] Fix video not found issue when selecting file
+- [x] Ensure user profile picture appears in profile and video cards
