@@ -1,0 +1,5 @@
+Linha 1: Criando arquivos e editando!
+Linha 2: Programação em Python.
+Linha 3: Aluno: Kassiano.
+Linha 4: Projeto de Python em andamento.
+

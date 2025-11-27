@@ -1,0 +1,4 @@
+produto 1: Arroz - R$ 20,00
+produto 2: Feijão - R$ 15,00
+produto 3: Açucar - R$ 10,00
+produto 4: Macarrão - R$ 12,00
