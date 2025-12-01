@@ -1,0 +1,6 @@
+Usando o Django.
+1- Instalar um ambiente virtual no python
+    no cmd: pip install virtualenvwrapper-win
+    C:\Users\kassiano.silva\AppData\Local\Programs\Python\Python314\Scripts\
+    C:\Users\kassiano.silva\AppData\Local\Programs\Python\Python314\
+    mkvirtualenv --nome pasta--
