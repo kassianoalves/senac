@@ -22,3 +22,4 @@ class Produto:
 produto1 = Produto('Paçoca', 5.00, 100)
 produto1.exibir_informacoes()
 produto1.vender(20)
+produto1.repor(5)
