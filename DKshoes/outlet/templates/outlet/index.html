@@ -1,0 +1,154 @@
+
+    {% extends "global/base.html" %}
+
+
+    {% block corpo %}
+
+    <main class="container my-5">
+        <!-- Carousel -->
+        <div id="productCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../image/carousel1.jpg" class="d-block w-100" alt="Promoção 1" style="height: 400px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/1200x400?text=Promoção+Especial'">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Bonés em Destaque</h5>
+                        <p>Descubra nossa coleção exclusiva de bonés estilosos.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../image/carousel2.jpg" class="d-block w-100" alt="Promoção 2" style="height: 400px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/1200x400?text=Tênis+Premium'">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Tênis Premium</h5>
+                        <p>Conforto e estilo para todas as ocasiões.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../image/carousel3.jpg" class="d-block w-100" alt="Promoção 3" style="height: 400px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/1200x400?text=Ofertas+Outlet'">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Ofertas Imperdíveis</h5>
+                        <p>Aproveite descontos especiais no outlet.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <section id="products">
+            <h2 class="text-center mb-4">Produtos em Destaque - Outlet</h2>
+
+            <!-- Bonés Section -->
+            <div class="mb-5">
+                <h3 class="text-center mb-4">Bonés</h3>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/celtcs/celts.webp" class="card-img-top" alt="Boné 1" style="height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x250?text=Boné+1'">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Boné Clássico Preto - 30% OFF</h5>
+                                <p class="card-text">Boné de algodão com ajuste perfeito.</p>
+                                <p class="card-text mt-auto"><del>R$ 49,90</del> <strong>R$ 34,93</strong></p>
+                                <a href="catalogo.html#bones" class="btn btn-success mt-2">Ver no Catálogo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/Falcon/falcon.webp" class="card-img-top" alt="Boné 2" style="height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x250?text=Boné+2'">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Boné Esportivo Azul - 25% OFF</h5>
+                                <p class="card-text">Boné respirável para atividades físicas.</p>
+                                <p class="card-text mt-auto"><del>R$ 59,90</del> <strong>R$ 44,93</strong></p>
+                                <a href="catalogo.html#bones" class="btn btn-success mt-2">Ver no Catálogo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/NewEra/NE.webp" class="card-img-top" alt="Boné 3" style="height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x250?text=Boné+3'">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Boné Vintage Vermelho - 20% OFF</h5>
+                                <p class="card-text">Boné retrô com design único.</p>
+                                <p class="card-text mt-auto"><del>R$ 69,90</del> <strong>R$ 55,92</strong></p>
+                                <a href="catalogo.html#bones" class="btn btn-success mt-2">Ver no Catálogo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/Lion/Detroit.webp" class="card-img-top" alt="Boné 4" style="height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x250?text=Boné+4'">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Boné Casual Branco - 15% OFF</h5>
+                                <p class="card-text">Boné confortável para o dia a dia.</p>
+                                <p class="card-text mt-auto"><del>R$ 54,90</del> <strong>R$ 46,67</strong></p>
+                                <a href="catalogo.html#bones" class="btn btn-success mt-2">Ver no Catálogo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tênis Section -->
+            <div class="mb-5">
+                <h3 class="text-center mb-4">Tênis</h3>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/DunkLowSupreme/DLS.webp" class="card-img-top" alt="Tênis 1" style="height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x250?text=Tênis+1'">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Dunk Low Supreme - 40% OFF</h5>
+                                <p class="card-text">Tênis Dunk Low edição Supreme com design exclusivo.</p>
+                                <p class="card-text mt-auto"><del>R$ 899,90</del> <strong>R$ 539,94</strong></p>
+                                <a href="catalogo.html#tenis" class="btn btn-success mt-2">Ver no Catálogo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/Kobe/Kobe.webp" class="card-img-top" alt="Tênis 2" style="height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x250?text=Tênis+2'">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Kobe Basketball - 20% OFF</h5>
+                                <p class="card-text">Tênis Kobe para basquete com suporte e conforto.</p>
+                                <p class="card-text mt-auto"><del>R$ 749,90</del> <strong>R$ 599,92</strong></p>
+                                <a href="catalogo.html#tenis" class="btn btn-success mt-2">Ver no Catálogo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/NB/CBlue.webp" class="card-img-top" alt="Tênis 3" style="height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x250?text=Tênis+3'">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">New Balance Azul - 30% OFF</h5>
+                                <p class="card-text">Tênis New Balance durável para skate.</p>
+                                <p class="card-text mt-auto"><del>R$ 179,90</del> <strong>R$ 125,93</strong></p>
+                                <a href="catalogo.html#tenis" class="btn btn-success mt-2">Ver no Catálogo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/Nike/DunkLow.webp" class="card-img-top" alt="Tênis 4" style="height: 250px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x250?text=Tênis+4'">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Nike Dunk Low - 25% OFF</h5>
+                                <p class="card-text">Tênis Nike ideal para treinos intensos.</p>
+                                <p class="card-text mt-auto"><del>R$ 189,90</del> <strong>R$ 142,43</strong></p>
+                                <a href="catalogo.html#tenis" class="btn btn-success mt-2">Ver no Catálogo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+     {% endblock corpo %}

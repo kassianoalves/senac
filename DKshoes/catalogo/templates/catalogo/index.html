@@ -1,0 +1,558 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DK Clothing - Catálogo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Hero/Promotion Section -->
+    <section class="bg-primary text-white py-5 position-relative">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold">CATÁLOGO COMPLETO</h1>
+                    <p class="lead">Explore nossa coleção completa de bonés e tênis. Qualidade e estilo garantidos!</p>
+                    <a href="#products" class="btn btn-warning btn-lg">Ver Produtos</a>
+                </div>
+                <div class="col-lg-4">
+                    <img src="../image/promocao.jpg" alt="Catálogo Completo" class="img-fluid rounded" onerror="this.src='https://via.placeholder.com/400x300?text=CATÁLOGO+COMPLETO'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Início</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="catalogoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Catálogo
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#bones">Boné</a></li>
+                            <li><a class="dropdown-item" href="#tenis">Tênis</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="outlet.html">Outlet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="quem-somos.html">A Marca</a>
+                    </li>
+                </ul>
+            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" title="Carrinho de Compras">
+                        <i class="fas fa-shopping-cart"></i> Carrinho (0)
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Conta
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="login.html">Login</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <!-- Carousel -->
+        <div id="productCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../image/carousel1.jpg" class="d-block w-100" alt="Promoção 1" style="height: 400px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/1200x400?text=Promoção+Especial'">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Bonés em Destaque</h5>
+                        <p>Descubra nossa coleção exclusiva de bonés estilosos.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../image/carousel2.jpg" class="d-block w-100" alt="Promoção 2" style="height: 400px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/1200x400?text=Tênis+Premium'">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Tênis Premium</h5>
+                        <p>Conforto e estilo para todas as ocasiões.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../image/carousel3.jpg" class="d-block w-100" alt="Promoção 3" style="height: 400px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/1200x400?text=Ofertas+Outlet'">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Ofertas Imperdíveis</h5>
+                        <p>Aproveite descontos especiais no outlet.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <section class="text-center mb-5">
+            <h1 class="display-4">Catálogo de Produtos</h1>
+            <p class="lead">Os melhores tênis e bonés você encontra aqui!</p>
+        </section>
+        <div id="productContent">
+            <!-- Bonés Section -->
+            <div id="bones">
+                <div class="row">
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/celtcs/celts.webp" class="card-img-top" alt="Boné 1" style="height: 200px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x200?text=Boné+1'">
+                            <div class="card-body">
+                                <h5 class="card-title">Boné Clássico Preto</h5>
+                                <p class="card-text">Boné de algodão com ajuste perfeito.</p>
+                                <p class="card-text"><strong>R$ 49,90</strong></p>
+                                <a href="#" class="btn btn-primary">Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/Falcon/falcon.webp" class="card-img-top" alt="Boné 2" style="height: 200px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x200?text=Boné+2'">
+                            <div class="card-body">
+                                <h5 class="card-title">Boné Esportivo Azul</h5>
+                                <p class="card-text">Boné respirável para atividades físicas.</p>
+                                <p class="card-text"><strong>R$ 59,90</strong></p>
+                                <a href="#" class="btn btn-primary">Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/NewEra/NE.webp" class="card-img-top" alt="Boné 3" style="height: 200px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x200?text=Boné+3'">
+                            <div class="card-body">
+                                <h5 class="card-title">Boné Vintage Vermelho</h5>
+                                <p class="card-text">Boné retrô com design único.</p>
+                                <p class="card-text"><strong>R$ 69,90</strong></p>
+                                <a href="#" class="btn btn-primary">Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/Lion/Detroit.webp" class="card-img-top" alt="Boné 4" style="height: 200px; object-fit: contain;" onerror="this.src='https://via.placeholder.com/300x200?text=Boné+4'">
+                            <div class="card-body">
+                                <h5 class="card-title">Boné Casual Branco</h5>
+                                <p class="card-text">Boné confortável para o dia a dia.</p>
+                                <p class="card-text"><strong>R$ 54,90</strong></p>
+                                <a href="#" class="btn btn-primary">Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tênis Section -->
+            <div id="tenis" style="display: none;">
+                <div class="row">
+                    <!-- Dunk Low Supreme -->
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/DunkLowSupreme/DLS.webp" class="card-img-top" alt="Dunk Low Supreme" style="height: 200px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x200?text=Dunk+Low+Supreme'">
+                            <div class="card-body">
+                                <h5 class="card-title">Dunk Low Supreme</h5>
+                                <p class="card-text">Tênis Dunk Low edição Supreme com design exclusivo.</p>
+                                <p class="card-text"><strong>R$ 899,90</strong></p>
+                                <a href="#" class="btn btn-primary">Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kobe -->
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/Kobe/Kobe.webp" class="card-img-top" alt="Kobe" style="height: 200px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x200?text=Kobe'">
+                            <div class="card-body">
+                                <h5 class="card-title">Kobe Basketball</h5>
+                                <p class="card-text">Tênis Kobe para basquete com suporte e conforto.</p>
+                                <p class="card-text"><strong>R$ 749,90</strong></p>
+                                <a href="#" class="btn btn-primary">Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New Balance -->
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/NB/CBlue.webp" class="card-img-top" alt="New Balance Classic Blue" style="height: 200px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x200?text=New+Balance'">
+                            <div class="card-body">
+                                <h5 class="card-title">New Balance Classic Blue</h5>
+                                <p class="card-text">Tênis New Balance clássico em azul, confortável e estiloso.</p>
+                                <p class="card-text"><strong>R$ 399,90</strong></p>
+                                <a href="#" class="btn btn-primary">Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Nike Dunk Low -->
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <img src="../image/Nike/DunkLow.webp" class="card-img-top" alt="Nike Dunk Low" style="height: 200px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/300x200?text=Nike+Dunk+Low'">
+                            <div class="card-body">
+                                <h5 class="card-title">Nike Dunk Low</h5>
+                                <p class="card-text">Tênis Nike Dunk Low clássico, icônico e versátil.</p>
+                                <p class="card-text"><strong>R$ 699,90</strong></p>
+                                <a href="#" class="btn btn-primary">Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="text-white py-1" style="background-color: purple; font-size: 0.9rem;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <ul class="list-unstyled" style="line-height: 1.4;">
+                                <li><a href="#" class="text-white">Sobre Nós</a></li>
+                                <li><a href="#" class="text-white">Localização</a></li>
+                                <li><a href="#" class="text-white">Regras de Envio</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <ul class="list-unstyled" style="line-height: 1.4;">
+                                <li><a href="#" class="text-white">Regras de Troca</a></li>
+                                <li><a href="#" class="text-white">Guia de Tamanhos</a></li>
+                                <li><a href="#" class="text-white">Projeto Social</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <p class="mb-0">&copy; 2025 DK Clothing. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Product Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalLabel">Detalhes do Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="product-gallery mb-3">
+                                <img id="mainProductImage" src="" class="img-fluid rounded" alt="Produto" style="width: 100%; height: 300px; object-fit: cover; cursor: zoom-in;" onclick="openZoomModal(this.src)">
+                                <div class="d-flex mt-2" id="thumbnailContainer">
+                                    <!-- Thumbnails will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 id="modalProductTitle"></h3>
+                            <p id="modalProductDescription" class="text-muted"></p>
+                            <p class="h4 text-primary fw-bold" id="modalProductPrice"></p>
+
+                            <div class="mb-3">
+                                <label for="sizeSelect" class="form-label">Tamanho:</label>
+                                <select class="form-select" id="sizeSelect">
+                                    <option value="35">35</option>
+                                    <option value="36">36</option>
+                                    <option value="37">37</option>
+                                    <option value="38">38</option>
+                                    <option value="39">39</option>
+                                    <option value="40">40</option>
+                                    <option value="41">41</option>
+                                    <option value="42">42</option>
+                                    <option value="43">43</option>
+                                    <option value="44">44</option>
+                                    <option value="45">45</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Cor:</label>
+                                <div class="d-flex gap-2" id="colorOptions">
+                                    <!-- Color options will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="quantityInput" class="form-label">Quantidade:</label>
+                                <div class="input-group">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
+                                    <input type="number" class="form-control text-center" id="quantityInput" value="1" min="1" max="10">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg w-100" onclick="addToCart()">
+                                <i class="fas fa-shopping-cart me-2"></i>Adicionar ao Carrinho
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zoom Modal -->
+    <div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <img id="zoomImage" src="" class="img-fluid" alt="Zoom" style="width: 100%; height: auto;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentProduct = null;
+
+        // Product data with image arrays
+        const products = {
+            'dunk-low-supreme': {
+                title: 'Dunk Low Supreme',
+                description: 'Tênis Dunk Low edição Supreme com design exclusivo.',
+                price: 'R$ 899,90',
+                images: ['../image/DunkLowSupreme/DLS.webp', '../image/DunkLowSupreme/DLS2.webp', '../image/DunkLowSupreme/DLS3.webp'],
+                colors: ['Preto', 'Branco', 'Cinza']
+            },
+            'kobe-basketball': {
+                title: 'Kobe Basketball',
+                description: 'Tênis Kobe para basquete com suporte e conforto.',
+                price: 'R$ 749,90',
+                images: ['../image/Kobe/Kobe.webp', '../image/Kobe/Kobe2.webp', '../image/Kobe/Kobe3.webp'],
+                colors: ['Preto', 'Azul', 'Vermelho']
+            },
+            'new-balance-classic-blue': {
+                title: 'New Balance Classic Blue',
+                description: 'Tênis New Balance clássico em azul, confortável e estiloso.',
+                price: 'R$ 399,90',
+                images: ['../image/NB/CBlue.webp', '../image/NB/CBlue2.webp', '../image/NB/CBlue3.webp'],
+                colors: ['Azul', 'Preto', 'Branco']
+            },
+            'nike-dunk-low': {
+                title: 'Nike Dunk Low',
+                description: 'Tênis Nike Dunk Low clássico, icônico e versátil.',
+                price: 'R$ 699,90',
+                images: ['../image/Nike/DunkLow.webp', '../image/Nike/DunkLow2.webp', '../image/Nike/DunkLow3.webp'],
+                colors: ['Preto', 'Branco', 'Bege']
+            },
+            'bone1': {
+                title: 'Boné Clássico Preto',
+                description: 'Boné de algodão com ajuste perfeito.',
+                price: 'R$ 49,90',
+                images: ['../image/celtcs/celts.webp', '../image/celtcs/celts2.webp', '../image/celtcs/celts3.webp'],
+                colors: ['Preto']
+            },
+            'bone2': {
+                title: 'Boné Esportivo Azul',
+                description: 'Boné respirável para atividades físicas.',
+                price: 'R$ 59,90',
+                images: ['../image/Falcon/falcon.webp', '../image/Falcon/falcon1.webp', '../image/Falcon/falcon2.webp'],
+                colors: ['Azul']
+            },
+            'bone3': {
+                title: 'Boné Vintage Vermelho',
+                description: 'Boné retrô com design único.',
+                price: 'R$ 69,90',
+                images: ['../image/NewEra/NE.webp', '../image/NewEra/NE1.webp', '../image/NewEra/NE2.webp'],
+                colors: ['Vermelho']
+            },
+            'bone4': {
+                title: 'Boné Casual Branco',
+                description: 'Boné confortável para o dia a dia.',
+                price: 'R$ 54,90',
+                images: ['../image/Lion/Detroit.webp', '../image/Lion/Detroit1.webp', '../image/Lion/Detroit2.webp'],
+                colors: ['Branco']
+            }
+        };
+
+        function openProductModal(productId) {
+            currentProduct = products[productId];
+            if (!currentProduct) return;
+
+            // Set modal content
+            document.getElementById('modalProductTitle').textContent = currentProduct.title;
+            document.getElementById('modalProductDescription').textContent = currentProduct.description;
+            document.getElementById('modalProductPrice').textContent = currentProduct.price;
+
+            // Set main image
+            document.getElementById('mainProductImage').src = currentProduct.images[0];
+
+            // Create thumbnails
+            const thumbnailContainer = document.getElementById('thumbnailContainer');
+            thumbnailContainer.innerHTML = '';
+            currentProduct.images.forEach((image, index) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = image;
+                thumbnail.className = 'img-thumbnail me-2';
+                thumbnail.style.width = '60px';
+                thumbnail.style.height = '60px';
+                thumbnail.style.objectFit = 'cover';
+                thumbnail.style.cursor = 'pointer';
+                thumbnail.onclick = () => changeMainImage(image);
+                if (index === 0) thumbnail.classList.add('border-primary');
+                thumbnailContainer.appendChild(thumbnail);
+            });
+
+            // Create color options
+            const colorOptions = document.getElementById('colorOptions');
+            colorOptions.innerHTML = '';
+            currentProduct.colors.forEach(color => {
+                const colorBtn = document.createElement('button');
+                colorBtn.type = 'button';
+                colorBtn.className = 'btn btn-outline-secondary btn-sm';
+                colorBtn.textContent = color;
+                colorBtn.onclick = () => selectColor(color, colorBtn);
+                colorOptions.appendChild(colorBtn);
+            });
+
+            // Reset quantity
+            document.getElementById('quantityInput').value = '1';
+
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('productModal'));
+            modal.show();
+        }
+
+        function changeMainImage(imageSrc) {
+            document.getElementById('mainProductImage').src = imageSrc;
+            // Update thumbnail selection
+            const thumbnails = document.querySelectorAll('#thumbnailContainer img');
+            thumbnails.forEach(thumb => {
+                thumb.classList.remove('border-primary');
+                if (thumb.src.includes(imageSrc.split('/').pop())) {
+                    thumb.classList.add('border-primary');
+                }
+            });
+        }
+
+        function openZoomModal(imageSrc) {
+            document.getElementById('zoomImage').src = imageSrc;
+            const zoomModal = new bootstrap.Modal(document.getElementById('zoomModal'));
+            zoomModal.show();
+        }
+
+        function changeQuantity(delta) {
+            const input = document.getElementById('quantityInput');
+            let value = parseInt(input.value) + delta;
+            if (value < 1) value = 1;
+            if (value > 10) value = 10;
+            input.value = value;
+        }
+
+        function selectColor(color, button) {
+            // Remove selection from all color buttons
+            document.querySelectorAll('#colorOptions button').forEach(btn => {
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-outline-secondary');
+            });
+            // Select current button
+            button.classList.remove('btn-outline-secondary');
+            button.classList.add('btn-primary');
+        }
+
+        function addToCart() {
+            const size = document.getElementById('sizeSelect').value;
+            const quantity = document.getElementById('quantityInput').value;
+            const selectedColor = document.querySelector('#colorOptions .btn-primary');
+
+            if (!selectedColor) {
+                alert('Por favor, selecione uma cor.');
+                return;
+            }
+
+            alert(`Produto adicionado ao carrinho!\n${currentProduct.title}\nCor: ${selectedColor.textContent}\nTamanho: ${size}\nQuantidade: ${quantity}\nPreço: ${currentProduct.price}`);
+
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
+            modal.hide();
+        }
+
+        // Function to show/hide product sections
+        function showSection(sectionId) {
+            const bonesSection = document.getElementById('bones');
+            const tenisSection = document.getElementById('tenis');
+
+            if (sectionId === 'bones') {
+                bonesSection.style.display = 'block';
+                tenisSection.style.display = 'none';
+            } else if (sectionId === 'tenis') {
+                bonesSection.style.display = 'none';
+                tenisSection.style.display = 'block';
+            }
+        }
+
+        // Add click event listeners to product cards
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle URL hash on page load
+            const hash = window.location.hash;
+            if (hash === '#bones') {
+                showSection('bones');
+                document.getElementById('bones').focus();
+            } else if (hash === '#tenis') {
+                showSection('tenis');
+                document.getElementById('tenis').focus();
+            } else {
+                // Show tennis by default
+                showSection('tenis');
+            }
+
+            // Dropdown menu items
+            document.querySelectorAll('#catalogoDropdown + .dropdown-menu .dropdown-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    if (href.includes('#bones')) {
+                        showSection('bones');
+                        document.getElementById('bones').focus();
+                    } else if (href.includes('#tenis')) {
+                        showSection('tenis');
+                        document.getElementById('tenis').focus();
+                    }
+                });
+            });
+
+            // Tennis cards
+            document.querySelectorAll('#tenis .card').forEach((card, index) => {
+                const productIds = ['dunk-low-supreme', 'kobe-basketball', 'new-balance-classic-blue', 'nike-dunk-low'];
+                card.style.cursor = 'pointer';
+                card.onclick = () => openProductModal(productIds[index]);
+            });
+
+            // Hats cards
+            document.querySelectorAll('#bones .card').forEach((card, index) => {
+                const productIds = ['bone1', 'bone2', 'bone3', 'bone4'];
+                card.style.cursor = 'pointer';
+                card.onclick = () => openProductModal(productIds[index]);
+            });
+        });
+    </script>
+</body>
+</html>

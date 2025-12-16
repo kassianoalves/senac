@@ -1,0 +1,49 @@
+
+   {% extends "global/base.html" %}
+
+
+    {% block corpo %}
+    
+   <main class="container my-5">
+        <section class="text-center mb-5">
+            <h1 class="display-4">Suporte ao Cliente</h1>
+            <p class="lead">Estamos aqui para ajudar! Entre em contato conosco para qualquer dúvida ou problema.</p>
+        </section>
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Formas de Contato</h2>
+            <div class="text-center">
+                <p><strong>Email:</strong> suporte@lojabonestenis.com</p>
+                <p><strong>Telefone:</strong> (11) 1234-5678</p>
+                <p><strong>Horário:</strong> Segunda a Sexta, 9h às 18h</p>
+            </div>
+        </section>
+        <section>
+            <h2 class="text-center mb-4">Envie sua Mensagem</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card bg-dark text-white">
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nome:</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email:</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Mensagem:</label>
+                                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Enviar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock formulario %}
