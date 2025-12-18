@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1)04_v27h7l)o60tq6%+$c*h&%z9v6577nq@@#mcr$0#fs*$l='
+SECRET_KEY = 'django-insecure-#(v#@aw^&#4f(fh%!qps$0_u*r51lb)j4#yvurz+l1*69bdvmz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'blog',
     'destinos',
     'fotos',
-    'cadastro'
+    'cadastro',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +61,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'base'
-            ],
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,7 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-#onde estão os arquivos estáticos
+# onde estão os arquivos estáticos
 STATICFILES_DIRS = [
     BASE_DIR / 'base' / 'static'
 ]

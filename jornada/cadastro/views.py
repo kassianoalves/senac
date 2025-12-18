@@ -1,9 +1,37 @@
 from django.shortcuts import render
 
-# Create your views here.
+from cadastro.models import Pessoa
 
+# Create your views here.
 def cadastro(request):
+    contexto = {
+        'title' : 'Jornada Viagem | Cadastro',
+        'mensagem': 'Você acessou o cadastro'
+    }
     return render(
         request,
-        'cadastro/index.html'
+        'cadastro/index.html',
+        contexto,
     )
+
+def gravar(request):
+    #Salvar os dados para tabela
+    nova_pessoa = Pessoa()
+    nova_pessoa.nome = request.POST.get('nome')
+    nova_pessoa.idade = request.POST.get('idade')
+    nova_pessoa.email = request.POST.get('email')
+    nova_pessoa.save()
+    
+    return cadastro(request)
+
+def exibe(request):
+    #exibir todas as pessoas
+    exibe_pessoas = {
+        'pessoas': Pessoa.objects.all()
+    }
+#Retornar os dados para a página
+    return render(
+    request,
+    'cadastro/mostrar.html',
+    exibe_pessoas,
+)
