@@ -30,6 +30,11 @@
                                     data-bs-target="#descricaoModal{{ artigo.id }}">
                                 Leia mais
                             </button>
+                            <a href="{% url 'adicionar_ao_carrinho' artigo.id %}"
+                            class="btn btn-success"> Adicionar ao Carrinho </a>
+                            <p class="mt-2 fw-bold">
+                                R${{artigo.preco}}
+                            </p>
                         </div>
                     </div>
                     {% endfor %}

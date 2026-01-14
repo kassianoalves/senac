@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'destinos',
     'fotos',
     'cadastro',
+    'carrinho',
 ]
 
 MIDDLEWARE = [

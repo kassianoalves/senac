@@ -34,6 +34,7 @@ urlpatterns = [
     path('destinos/',include('destinos.urls')),
     path('fotos/',include('fotos.urls')),
     path('cadastro/',include('cadastro.urls')),
+    path('carrinho/',include('carrinho.urls')),
 ]
 
 urlpatterns += [
