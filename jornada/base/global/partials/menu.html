@@ -47,36 +47,45 @@
                     <a class="nav-link" href="{% url 'cadastro' %}">Cadastre-se</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'mostrar' %}">Mostrar Dados</a>
+                    <a class="nav-link" href="{% url 'mostrar' %}">Mostrar dados</a>
                 </li>
+                
                 {% if user.is_authenticated %}
-
-
                 <li class="nav-item">
-                    <span class="nav-link active">Usuário: {{ user.get_username }}</span>
+                    <span class="nav-link active text-light">
+                        Usuário: {{ user.get_username }}
+                    </span>
                 </li>
+
+
                 <li class="nav-item">
-                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    <form method="post" action="{% url 'logout' %}" class="d-inline">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-link nav-link active"
-                            style="padding: 0; border: none; background: none; color: inherit; text-decoration: underline;">
+                        <button type="submit" class="btn btn-link nav-link text-light p-0 mt-2">
                             Logout
                         </button>
                     </form>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
-                        href="{% url 'login'%}?next={{request.path}}">Login</a>
+                    <a class="nav-link active text-light" href="{% url 'login'%}?next={{request.path}}">
+                        Login
+                    </a>
                 </li>
                 {% endif %}
 
-                <form method="post" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit">Logout</button>
-                </form>
-
+                
+          
+                
             </ul>
         </div>
     </div>
-</nav>
+</nav><html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_ApprovalStatus msdt:dt="string">0</mso:_ApprovalStatus>
+<mso:_ApprovalAssignedTo msdt:dt="string"></mso:_ApprovalAssignedTo>
+<mso:_ApprovalRespondedBy msdt:dt="string"></mso:_ApprovalRespondedBy>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>

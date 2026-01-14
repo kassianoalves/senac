@@ -22,8 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-#(v#@aw^&#4f(fh%!qps$0_u*r51lb)j4#yvurz+l1*69bdvmz'
-# Tempo de expiração do token em segundos (exemplo: 1 hora)
-PASSWORD_RESET_TIMEOUT = 3600
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -64,7 +62,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'base',
-            os.path.join(BASE_DIR, 'templates')
+             os.path.join(BASE_DIR, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -131,8 +129,12 @@ STATICFILES_DIRS = [
     BASE_DIR / 'base' / 'static'
 ]
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_rot')
+MEDIA_URL = '/media/'
+
 # Redirecionar para URL inicial após login (redirecionamento padrão para /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
 
-#  Isso registra todos os emails enviados ao console (para que você possa copiar o link de redefinição de senha do console).
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGOUT_REDIRECT_URL = 'home'
