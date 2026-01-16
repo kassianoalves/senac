@@ -4,29 +4,16 @@ from .models import CarrinhoItem
 from django.contrib import messages
 from urllib.parse import quote
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
-
-
-@login_required
-def exibe(request):
-    # exibir todas as pessoas
-    exibe_pessoas = {
-        'pessoas': Pessoa.objects.all()
-    }
-    # Retornar os dados para a página
-    return render(
-        request,
-        'cadastro/mostrar.html',
-        exibe_pessoas,
-    )
 
 # Create your views here.
+@login_required
 def adicionar_ao_carrinho(request, produto_id):
     # Função responsável por adicionar um produto ao carrinho
     # Recebe dois parâmetros:
     # request → contém as informações da requisição HTTP
     # produto_id → identifica qual produto (Topico) foi selecionado
-
 
     produto = get_object_or_404(Topico, id=produto_id)
     # Busca o produto no banco de dados pelo ID recebido
@@ -34,9 +21,11 @@ def adicionar_ao_carrinho(request, produto_id):
     # um erro 404 (página não encontrada)
     #
     # Isso evita erros e garante mais segurança à aplicação
-
-
-    item, criado = CarrinhoItem.objects.get_or_create(produto=produto)
+    item, criado = CarrinhoItem.objects.get_or_create(
+        usuario = request.user,
+        produto = produto,
+    )
+    # item, criado = CarrinhoItem.objects.get_or_create(produto=produto)
     # Tenta localizar um item do carrinho relacionado a esse produto
     #
     # Se o produto ainda NÃO estiver no carrinho:
@@ -67,15 +56,13 @@ def adicionar_ao_carrinho(request, produto_id):
     return redirect('ver_carrinho')
     # Redireciona o usuário para a página de visualização do carrinho
 
-
+@login_required
 def ver_carrinho(request):
     # Função responsável por exibir os itens que estão no carrinho
-
-
-    itens = CarrinhoItem.objects.all()
+    # itens = CarrinhoItem.objects.all()
+    itens = CarrinhoItem.objects.filter(usuario = request.user)
     # Recupera todos os itens armazenados no carrinho
     # Cada item representa um produto adicionado pelo usuário
-
 
     total = sum(item.total_preco() for item in itens)
     # Calcula o valor total da compra
@@ -99,9 +86,12 @@ def ver_carrinho(request):
 def remover_do_carrinho(request, item_id):
     # Função responsável por remover um item específico do carrinho
     # Recebe o ID do item que será excluído
-
-
-    item = get_object_or_404(CarrinhoItem, id=item_id)
+    # item = get_object_or_404(CarrinhoItem, id=item_id)
+    item = get_object_or_404(
+        CarrinhoItem,
+        id = item_id,
+        usuario = request.user,
+    )
     # Busca o item no carrinho pelo ID
     # Caso o item não exista, retorna erro 404 automaticamente
 
@@ -119,11 +109,9 @@ def finalizar_compra(request):
     # Função responsável por finalizar a compra
     # Gera uma mensagem com os dados do carrinho
     # e redireciona o usuário para o WhatsApp
-
-
-    itens = CarrinhoItem.objects.all()
+    # itens = CarrinhoItem.objects.all()
+    itens = CarrinhoItem.objects.filter(usuario = request.user)
     # Recupera todos os itens que estão no carrinho
-
 
     if not itens:
         # Verifica se o carrinho está vazio
@@ -164,7 +152,7 @@ def finalizar_compra(request):
     # Simula o fechamento do pedido
 
 
-    whatsapp_url = f"https://wa.me/55SEUNUMEROAQUI?text={mensagem}"
+    whatsapp_url = f"https://wa.me/5521998200102?text={mensagem}"
     # Cria a URL de redirecionamento para o WhatsApp
     # O número deve ser substituído pelo telefone da empresa
 
@@ -172,3 +160,7 @@ def finalizar_compra(request):
     return redirect(whatsapp_url)
     # Redireciona o usuário para o WhatsApp
     # com a mensagem do pedido já preenchida
+
+
+
+
